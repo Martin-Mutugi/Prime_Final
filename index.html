@@ -229,10 +229,11 @@
 
         <!-- Date of Birth -->
         <div class="mb-3">
-            <label for="birthDate" class="form-label">Date of Birth</label>
-            <input type="date" class="form-control" id="birthDate" required>
-            <div class="invalid-feedback">Please enter the date of birth.</div>
+             <label for="birthDate" class="form-label">Date of Birth (yy/mm/dd)</label>
+             <input type="date" class="form-control" id="birthDate" required pattern="\d{2}/\d{2}/\d{2}">
+            <div class="invalid-feedback">Please enter the date of birth in the format yy/mm/dd.</div>
         </div>
+
 
         <!-- Address -->
         <h5>Address</h5>
@@ -290,11 +291,13 @@
 
         <!-- Registration Information -->
         <h5>Registration Information</h5>
-        <div class="mb-3">
-            <label for="inscriptionDate" class="form-label">Inscription Date</label>
-            <input type="date" class="form-control" id="inscriptionDate" required>
-            <div class="invalid-feedback">Please enter the inscription date.</div>
-        </div>
+        <!-- Inscription Date -->
+<div class="mb-3">
+    <label for="inscriptionDate" class="form-label">Inscription Date (yy/mm/dd)</label>
+    <input type="date" class="form-control" id="inscriptionDate" required pattern="\d{2}/\d{2}/\d{2}">
+    <div class="invalid-feedback">Please enter the inscription date in the format yy/mm/dd.</div>
+</div>
+
         <div class="mb-3">
             <label for="mvcNumber" class="form-label">MVC Number</label>
             <input type="text" class="form-control" id="mvcNumber" required>
@@ -313,16 +316,29 @@
 
         <!-- Submit Button -->
         <div class="button-row">
-            <button type="button" class="btn btn-primary" onclick="registerPatient()">Save & Continue</button>
+            <button type="button" class="btn btn-primary" onclick="savePatientRegistration('healthcareFacility')">Save & Continue</button>
         </div>
     </form>
 </div>
+<script>
+    function savePatientRegistration() {
+        const form = document.getElementById('patientRegistrationForm');
 
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
+        }
 
-    <!-- Other Services Section -->
-<div id="otherServicesSection" class="tab-pane hide">
+        alert('PatientRegistration saved successfully!');
+        // Add logic to save healthcare facility details to your database
+    }
+</script>
+
+  <!-- Other Services Section -->
+<div id="otherServicesSection" class="tab-pane">
     <!-- Top Navigation for Other Services -->
-    <nav class="services-nav">
+    <nav class="services-nav sticky-nav">
         <ul class="services-list">
             <li><a href="#" onclick="showService('healthcareFacility')">Healthcare Facility</a></li>
             <li><a href="#" onclick="showService('medicalHistoryRiskFactors')">Medical History and Risk Factors</a></li>
@@ -340,12 +356,12 @@
             <li><a href="#" onclick="showService('partograph')">Partograph</a></li>
         </ul>
     </nav>
-
     <!-- Content section where the selected service form will appear -->
     <div id="serviceContent">
         <h3>Select a service from the top navigation</h3>
     </div>
 </div>
+
 
 
 <!-- Healthcare Facility Section -->
@@ -414,11 +430,15 @@
             <div class="invalid-feedback">Please enter the city of the facility.</div>
         </div>
 
-        <!-- Navigation Buttons -->
-        <div class="button-row">
-            <button type="button" class="btn btn-secondary" onclick="navigate('patientRegistration')">Back</button>
-            <button type="button" class="btn btn-primary" onclick="saveHealthcareFacility('medicalHistoryRiskFactors')">Save & Continue</button>
-        </div>
+      <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
+
     </form>
 </div>
 
@@ -568,22 +588,29 @@
         </div>
     </form>
 
-    <!-- Save & Continue Button -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('healthcareFacility')">Back</button>
-        <button type="button" class="btn btn-primary" onclick="validateAndProceed('currentPregnancyDetails')">Save & Continue</button>
-    </div>
+   <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
+
 </div>
 
 <script>
-    function validateAndProceed() {
-        var form = document.getElementById('medicalHistoryForm');
-        if (form.checkValidity()) {
-            navigate('currentPregnancyDetails'); // Proceed to next form
-        } else {
-            alert('Please fill out all required fields.');
-            form.reportValidity(); // Highlights missing fields
+    function saveMedicalHistoryRiskFactor() {
+        const form = document.getElementById('medicalHistoryForm');
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
         }
+
+        alert('medicalHistoryRiskFactor Saved Succsesfuly');
+        // Add logic to save healthcare facility details to your database
     }
 </script>
 
@@ -657,20 +684,23 @@
 
     <!-- Save & Continue Button -->
     <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('medicalHistoryRiskFactors')">Back</button>
+        <button type="button" class="btn btn-secondary" onclick="navigate('healthcareFacility')">Back</button>
         <button type="button" class="btn btn-primary" onclick="validateCurrentPregnancyForm('socialLivingConditions')">Save & Continue</button>
     </div>
 </div>
 
 <script>
-    function validateCurrentPregnancyForm() {
-        var form = document.getElementById('currentPregnancyForm');
-        if (form.checkValidity()) {
-            navigate('socialLivingConditions'); // Proceed to the next form
-        } else {
-            alert('Please fill out all required fields.');
-            form.reportValidity(); // Highlights missing fields
+    function saveCureentPregnancyDetails() {
+        const form = document.getElementById('currentPregnancyForm');
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
         }
+
+        alert('Current Pregnancy Details Saved Succsesfuly');
+        // Add logic to save healthcare facility details to your database
     }
 </script>
 <!-- Social and Living Conditions Section -->
@@ -722,14 +752,17 @@
 </div>
 
 <script>
-    function validateSocialLivingConditionsForm() {
-        var form = document.getElementById('socialLivingConditionsForm');
-        if (form.checkValidity()) {
-            navigate('healthExamination'); // Proceed to next form
-        } else {
-            alert('Please fill out all required fields.');
-            form.reportValidity(); // Highlights missing fields
+    function saveSocialLivingConditions() {
+        const form = document.getElementById('SocialLivingConditionsForm');
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
         }
+
+        alert('SocialLivingConditions Saved Succsesfuly');
+        // Add logic to save healthcare facility details to your database
     }
 </script>
 
@@ -810,14 +843,17 @@
 </div>
 
 <script>
-    function validateHealthExaminationForm() {
-        var form = document.getElementById('healthExaminationForm');
-        if (form.checkValidity()) {
-            navigate('lifestyleHabits'); // Proceed to next form
-        } else {
-            alert('Please fill out all required fields.');
-            form.reportValidity(); // Highlights missing fields
+    function saveHealthExamination() {
+        const form = document.getElementById('HealthExaminationForm');
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
         }
+
+        alert('HealthExamination Saved Succsesfuly');
+        // Add logic to save healthcare facility details to your database
     }
 </script>
 
@@ -896,14 +932,17 @@
 </div>
 
 <script>
-    function validateLifestyleHabitsForm() {
-        var form = document.getElementById('lifestyleHabitsForm');
-        if (form.checkValidity()) {
-            navigate('mentalHealthSupport'); // Proceed to next form
-        } else {
-            alert('Please fill out all required fields.');
-            form.reportValidity(); // Highlights missing fields
+    function saveLifestyleHabits() {
+        const form = document.getElementById('LifestyleHabitsForm');
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
         }
+
+        alert('LifestyleHabitsSaved Succsesfuly');
+        // Add logic to save healthcare facility details to your database
     }
 </script>
 
@@ -961,16 +1000,20 @@
 </div>
 
 <script>
-    function validateMentalHealthSupportForm() {
-        var form = document.getElementById('mentalHealthSupportForm');
-        if (form.checkValidity()) {
-            navigate('previousPregnancies'); // Proceed to next form
-        } else {
-            alert('Please fill out all required fields.');
-            form.reportValidity(); // Highlights missing fields
+    function saveMentalHealthSupport() {
+        const form = document.getElementById('MentalHealthSupportForm');
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
         }
+
+        alert('MentalHealthSupport Succsesfuly');
+        // Add logic to save healthcare facility details to your database
     }
 </script>
+
 
 
 <!-- Previous Pregnancies Section -->
@@ -1056,16 +1099,20 @@
 </div>
 
 <script>
-    function validatePreviousPregnanciesForm() {
-        var form = document.getElementById('previousPregnanciesForm');
-        if (form.checkValidity()) {
-            navigate('medicationsSupplements'); // Proceed to next form
-        } else {
-            alert('Please fill out all required fields.');
-            form.reportValidity(); // Highlights missing fields
+    function savePreviousPregnancies() {
+        const form = document.getElementById('PreviousPregnanciesForm');
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
         }
+
+        alert('PreviousPregnancies Succsesfuly');
+        // Add logic to save healthcare facility details to your database
     }
 </script>
+
 
 <!-- Medications and Supplements Section -->
 <div id="medicationsSupplements" class="tab-pane">
@@ -1114,14 +1161,17 @@
 </div>
 
 <script>
-    function validateMedicationsSupplementsForm() {
-        var form = document.getElementById('medicationsSupplementsForm');
-        if (form.checkValidity()) {
-            navigate('laboratoryResults'); // Proceed to next form
-        } else {
-            alert('Please fill out all required fields.');
-            form.reportValidity(); // Highlights missing fields
+    function saveMedicationsSupplements() {
+        const form = document.getElementById('MedicationsSupplementsForm');
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
         }
+
+        alert('MedicationsSupplements');
+        // Add logic to save healthcare facility details to your database
     }
 </script>
 
@@ -1169,16 +1219,20 @@
 </div>
 
 <script>
-    function validateLaboratoryResultsForm() {
-        var form = document.getElementById('laboratoryResultsForm');
-        if (form.checkValidity()) {
-            navigate('carePlan'); // Proceed to next form
-        } else {
-            alert('Please fill out all required fields.');
-            form.reportValidity(); // Highlights missing fields
+    function saveLaboratoryResults() {
+        const form = document.getElementById('laboratoryResultsForm');
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
         }
+
+        alert('LaboratoryResults');
+        // Add logic to save healthcare facility details to your database
     }
 </script>
+
 
 <!-- Care Plan Section -->
 <div id="carePlan" class="tab-pane">
@@ -1221,14 +1275,17 @@
 </div>
 
 <script>
-    function validateCarePlanForm() {
-        var form = document.getElementById('carePlanForm');
-        if (form.checkValidity()) {
-            navigate('midwifeNotes'); // Proceed to next form
-        } else {
-            alert('Please fill out all required fields.');
-            form.reportValidity(); // Highlights missing fields
+    function saveCarePlanForm() {
+        const form = document.getElementById('carePlanForm');
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
         }
+
+        alert('CarePlanForm Saved Succesfuly');
+        // Add logic to save healthcare facility details to your database
     }
 </script>
 
@@ -1310,14 +1367,17 @@
 </div>
 
 <script>
-    function validateMidwifeNotesForm() {
-        var form = document.getElementById('midwifeNotesForm');
-        if (form.checkValidity()) {
-            navigate('laborDelivery'); // Proceed to next form
-        } else {
-            alert('Please fill out all required fields.');
-            form.reportValidity(); // Highlights missing fields
+    function saveMidwifeNotes() {
+        const form = document.getElementById('midwifeNotesForm');
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
         }
+
+        alert('MidwifeNotes Saved Succesfuly');
+        // Add logic to save healthcare facility details to your database
     }
 </script>
 
@@ -1387,14 +1447,17 @@
 </div>
 
 <script>
-    function validateLaborDeliveryForm() {
-        var form = document.getElementById('laborDeliveryForm');
-        if (form.checkValidity()) {
-            navigate('partograph'); // Proceed to next form
-        } else {
-            alert('Please fill out all required fields.');
-            form.reportValidity(); // Highlights missing fields
+    function saveLaborDelivery() {
+        const form = document.getElementById('laborDeliveryForm');
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
         }
+
+        alert('LaborDelivery Saved Succesfuly');
+        // Add logic to save healthcare facility details to your database
     }
 </script>
 
@@ -1528,9 +1591,17 @@
         ctx.stroke();  // Apply all strokes to the canvas
     }
 
-    function submitPartograph() {
-        alert('Partograph submitted successfully!');
-        // Submission logic here
+    function savePartograph() {
+        const form = document.getElementById('partographForm');
+
+        // Check form validity
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
+        }
+
+        alert('Partograph Details Saved Succesfuly');
+        // Add logic to save healthcare facility details to your database
     }
 </script>
 

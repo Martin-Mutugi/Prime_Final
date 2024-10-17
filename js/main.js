@@ -59,4 +59,83 @@ document.addEventListener('DOMContentLoaded', function() {
             defaultForm.style.display = 'block';  // Show the default form or message
         }
     }
+
+    // Navigation functions for navigating between services and saving data
+    // Function to navigate to a specific service (previous or next)
+    function navigate(service) {
+        console.log('Navigating to: ' + service);
+        
+        // Define all services and their respective URLs or sections
+        const services = {
+            'patientRegistration': 'patientRegistration.html',
+            'medicalHistoryRiskFactors': 'medicalHistoryRiskFactors.html',
+            'deliverySummary': 'deliverySummary.html',
+            'partograph': 'partograph.html',
+            'laborProgress': 'laborProgress.html',
+            'labResults': 'labResults.html',
+            'ultrasoundSummary': 'ultrasoundSummary.html',
+            'dischargeDetails': 'dischargeDetails.html',
+            'followUpNotes': 'followUpNotes.html',
+            'prenatalCheckup': 'prenatalCheckup.html',
+            'postpartumHealthCheck': 'postpartumHealthCheck.html'
+        };
+
+        // Navigate to the requested service if it's defined
+        if (services[service]) {
+            window.location.href = services[service];  // Navigate to a different page or section
+        } else {
+            console.log('Unknown service: ' + service);
+        }
+    }
+
+    // Function to save data and continue to the next service
+    function saveAndContinue(nextService) {
+        // Placeholder for save functionality (e.g., API call, local storage, etc.)
+        console.log('Saving data for the current service...');
+
+        // Simulate data save with a success message
+        console.log('Data saved successfully!');
+
+        // After saving, navigate to the next service
+        navigate(nextService);
+    }
+
+    // Function to go back to the previous service
+    function goBack(previousService) {
+        console.log('Going back to: ' + previousService);
+
+        // Navigate to the previous service
+        navigate(previousService);
+    }
+
+    // Attach the navigation functionality to the buttons (example)
+    document.getElementById('backButton').addEventListener('click', function() {
+        goBack('patientRegistration');  // Navigate back to patient registration
+    });
+
+    document.getElementById('saveContinueButton').addEventListener('click', function() {
+        saveAndContinue('medicalHistoryRiskFactors');  // Save data and continue to medical history
+    });
+
+    function handleCheckbox(formId, checkboxId) {
+        const form = document.getElementById(formId);
+        const checkbox = document.getElementById(checkboxId);
+    
+        if (checkbox.checked) {
+            console.log(`${checkboxId} is checked`);
+        } else {
+            console.log(`${checkboxId} is unchecked`);
+        }
+        
+        // Ensure form validation checks
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
+        }
+        
+        // Further logic to save data or process the form
+        alert('Form submitted successfully!');
+    }
+    
+
 });
