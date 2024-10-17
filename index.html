@@ -63,17 +63,7 @@
         .tab-pane.active {
             display: block;
         }
-        /* Top Navigation for Other Services */
-        .navbar {
-            margin-bottom: 20px;
-        }
-        .navbar .nav-link {
-            cursor: pointer;
-        }
-        /* Hide content */
-        .hide {
-            display: none;
-        }
+        
     </style>
 </head>
 <body>
@@ -115,7 +105,7 @@
     <div id="content">
         <div id="topBar" class="d-flex justify-content-between align-items-center">
             <!-- Left side (Title) -->
-            <h2>Welcome to the Maternal Health Portal</h2>
+            <h2>Maternal Health Portal</h2>
         
             <!-- Right side (Admin Icon, Name, and Notification) -->
             <div class="d-flex align-items-center">
@@ -317,7 +307,8 @@
 
         <!-- Submit Button -->
         <div class="button-row">
-            <button type="button" class="btn btn-primary" onclick="savePatientRegistration('healthcareFacility')">Save & Continue</button>
+            <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
         </div>
     </form>
 </div>
@@ -683,11 +674,14 @@
 
     </form>
 
-    <!-- Save & Continue Button -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('healthcareFacility')">Back</button>
-        <button type="button" class="btn btn-primary" onclick="validateCurrentPregnancyForm('socialLivingConditions')">Save & Continue</button>
-    </div>
+     <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
 </div>
 
 <script>
@@ -709,47 +703,127 @@
     <h3>Social and Living Conditions</h3>
     <form id="socialLivingConditionsForm">
 
-        <!-- Family Situation -->
+        <!-- Family Situation (Dropdown) -->
         <div class="mb-3">
             <label for="familySituation" class="form-label">Family Situation</label>
-            <input type="text" class="form-control" id="familySituation" placeholder="e.g., Married, Single Parent" required>
-            <div class="invalid-feedback">Please enter the family situation.</div>
+            <select class="form-control" id="familySituation" required>
+                <option value="">Select Family Situation</option>
+                <option value="married">Married</option>
+                <option value="single">Single</option>
+                <option value="divorced">Divorced</option>
+                <option value="widowed">Widowed</option>
+                <option value="singleParent">Single Parent</option>
+            </select>
+            <div class="invalid-feedback">Please select a family situation.</div>
         </div>
 
-        <!-- Living Situation -->
+        <!-- Profession (Dropdown) -->
         <div class="mb-3">
-            <label for="livingSituation" class="form-label">Living Situation</label>
-            <input type="text" class="form-control" id="livingSituation" placeholder="e.g., Lives with family, Lives alone" required>
-            <div class="invalid-feedback">Please enter the living situation.</div>
+            <label for="profession" class="form-label">Profession</label>
+            <select class="form-control" id="profession" required>
+                <option value="">Select Profession</option>
+                <option value="doctor">Doctor</option>
+                <option value="nurse">Nurse</option>
+                <option value="teacher">Teacher</option>
+                <option value="engineer">Engineer</option>
+                <option value="lawyer">Lawyer</option>
+                <option value="student">Student</option>
+                <option value="unemployed">Unemployed</option>
+                <option value="other">Other</option>
+            </select>
+            <div class="invalid-feedback">Please select a profession.</div>
         </div>
 
-        <!-- Both Parents Working -->
+        <!-- Working Type (Dropdown) -->
         <div class="mb-3">
-            <label for="bothParentsWorking" class="form-label">Both Parents Working</label>
+            <label for="workingType" class="form-label">Working Type</label>
+            <select class="form-control" id="workingType" required>
+                <option value="">Select Working Type</option>
+                <option value="fullTime">Full-time</option>
+                <option value="partTime">Part-time</option>
+                <option value="selfEmployed">Self-employed</option>
+                <option value="freelancer">Freelancer</option>
+                <option value="notWorking">Not Working</option>
+            </select>
+            <div class="invalid-feedback">Please select a working type.</div>
+        </div>
+
+        <!-- Job (Dropdown) -->
+        <div class="mb-3">
+            <label for="job" class="form-label">Job</label>
+            <select class="form-control" id="job" required>
+                <option value="">Select Job</option>
+                <option value="manager">Manager</option>
+                <option value="staff">Staff</option>
+                <option value="technician">Technician</option>
+                <option value="clerical">Clerical</option>
+                <option value="supportStaff">Support Staff</option>
+                <option value="other">Other</option>
+            </select>
+            <div class="invalid-feedback">Please select a job.</div>
+        </div>
+
+        <!-- Education Level (Dropdown) -->
+        <div class="mb-3">
+            <label for="educationLevel" class="form-label">Education Level</label>
+            <select class="form-control" id="educationLevel" required>
+                <option value="">Select Education Level</option>
+                <option value="primary">Primary School</option>
+                <option value="secondary">Secondary School</option>
+                <option value="diploma">Diploma</option>
+                <option value="undergraduate">Undergraduate</option>
+                <option value="postgraduate">Postgraduate</option>
+                <option value="other">Other</option>
+            </select>
+            <div class="invalid-feedback">Please select an education level.</div>
+        </div>
+
+        <!-- Mode of Transport (Dropdown) -->
+        <div class="mb-3">
+            <label for="modeOfTransport" class="form-label">Mode of Transport</label>
+            <select class="form-control" id="modeOfTransport" required>
+                <option value="">Select Mode of Transport</option>
+                <option value="car">Car</option>
+                <option value="publicTransport">Public Transport</option>
+                <option value="bicycle">Bicycle</option>
+                <option value="motorbike">Motorbike</option>
+                <option value="walking">Walking</option>
+                <option value="other">Other</option>
+            </select>
+            <div class="invalid-feedback">Please select a mode of transport.</div>
+        </div>
+
+        <!-- Smoking (Dropdown) -->
+        <div class="mb-3">
+            <label for="smoking" class="form-label">Smoking</label>
+            <select class="form-control" id="smoking" required>
+                <option value="">Select Smoking Status</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+                <option value="quit">Quit</option>
+            </select>
+            <div class="invalid-feedback">Please select a smoking status.</div>
+        </div>
+
+        <!-- Snus (Checkbox) -->
+        <div class="mb-3">
+            <label for="snus" class="form-label">Use of Snus (Snuff)</label>
             <div>
-                <input type="checkbox" id="bothParentsWorkingYes" name="bothParentsWorking" value="true"> Yes
-                <input type="checkbox" id="bothParentsWorkingNo" name="bothParentsWorking" value="false"> No
+                <input type="checkbox" id="snusYes" name="snus" value="true"> Yes
+                <input type="checkbox" id="snusNo" name="snus" value="false"> No
             </div>
-            <div class="invalid-feedback">Please select an option.</div>
-        </div>
-
-        <!-- Official Childcare Application -->
-        <div class="mb-3">
-            <label for="childcareApplication" class="form-label">Official Childcare Application Submitted</label>
-            <div>
-                <input type="checkbox" id="childcareApplicationYes" name="childcareApplication" value="true"> Yes
-                <input type="checkbox" id="childcareApplicationNo" name="childcareApplication" value="false"> No
-            </div>
-            <div class="invalid-feedback">Please select an option.</div>
         </div>
 
     </form>
 
-    <!-- Save & Continue Button -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('currentPregnancyDetails')">Back</button>
-        <button type="button" class="btn btn-primary" onclick="validateSocialLivingConditionsForm()">Save & Continue</button>
-    </div>
+     <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
 </div>
 
 <script>
@@ -762,7 +836,7 @@
             return;  // Stop if the form is not valid
         }
 
-        alert('SocialLivingConditions Saved Succsesfuly');
+        alert('SocialLivingConditions Saved Successfully');
         // Add logic to save healthcare facility details to your database
     }
 </script>
@@ -836,11 +910,14 @@
 
     </form>
 
-    <!-- Save & Continue Button -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('socialLivingConditions')">Back</button>
-        <button type="button" class="btn btn-primary" onclick="validateHealthExaminationForm()">Save & Continue</button>
-    </div>
+     <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
 </div>
 
 <script>
@@ -925,11 +1002,14 @@
         </div>
     </form>
 
-    <!-- Save & Continue Button -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('healthExamination')">Back</button>
-        <button type="button" class="btn btn-primary" onclick="validateLifestyleHabitsForm()">Save & Continue</button>
-    </div>
+      <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
 </div>
 
 <script>
@@ -993,11 +1073,14 @@
         </div>
     </form>
 
-    <!-- Save & Continue Button -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('lifestyleHabits')">Back</button>
-        <button type="button" class="btn btn-primary" onclick="validateMentalHealthSupportForm()">Save & Continue</button>
-    </div>
+      <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
 </div>
 
 <script>
@@ -1061,10 +1144,23 @@
         </div>
 
         <!-- Delivery Type -->
-        <div class="mb-3">
-            <label for="deliveryType" class="form-label">Delivery Type</label>
-            <input type="text" class="form-control" id="deliveryType" placeholder="e.g., Vaginal, C-section" required>
-        </div>
+<div class="mb-3">
+    <label for="deliveryType" class="form-label">Delivery Type</label>
+    <select class="form-control" id="deliveryType" required>
+        <option value="">Select Delivery Type</option>
+        <option value="vaginal">Vaginal</option>
+        <option value="c-section">C-section</option>
+        <option value="assisted">Assisted Delivery</option>
+        <option value="waterBirth">Water Birth</option>
+        <option value="natural">Natural Delivery</option>
+        <option value="forceps">Forceps Delivery</option>
+        <option value="vacuum">Vacuum Extraction</option>
+        <option value="breech">Breech Birth</option>
+        <option value="other">Other</option>
+    </select>
+    <div class="invalid-feedback">Please select a delivery type.</div>
+</div>
+
 
         <!-- Child Birth Details -->
         <h5>Child Birth Details</h5>
@@ -1092,11 +1188,14 @@
         </div>
     </form>
 
-    <!-- Navigation Buttons -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('mentalHealthSupport')">Back</button>
-        <button type="button" class="btn btn-primary" onclick="validatePreviousPregnanciesForm()">Save & Continue</button>
-    </div>
+      <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
 </div>
 
 <script>
@@ -1154,11 +1253,14 @@
         </div>
     </form>
 
-    <!-- Navigation Buttons -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('previousPregnancies')">Back</button>
-        <button type="button" class="btn btn-primary" onclick="validateMedicationsSupplementsForm()">Save & Continue</button>
-    </div>
+      <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
 </div>
 
 <script>
@@ -1212,11 +1314,14 @@
         </div>
     </form>
 
-    <!-- Navigation Buttons -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('medicationsSupplements')">Back</button>
-        <button type="button" class="btn btn-primary" onclick="validateLaboratoryResultsForm()">Save & Continue</button>
-    </div>
+      <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
 </div>
 
 <script>
@@ -1268,11 +1373,14 @@
         </div>
     </form>
 
-    <!-- Navigation Buttons -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('laboratoryResults')">Back</button>
-        <button type="button" class="btn btn-primary" onclick="validateCarePlanForm()">Save & Continue</button>
-    </div>
+      <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
 </div>
 
 <script>
@@ -1360,11 +1468,14 @@
         </div>
     </form>
 
-    <!-- Navigation Buttons -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('carePlan')">Back</button>
-        <button type="button" class="btn btn-primary" onclick="validateMidwifeNotesForm()">Save & Continue</button>
-    </div>
+      <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
 </div>
 
 <script>
@@ -1440,11 +1551,14 @@
         </div>
     </form>
 
-    <!-- Navigation Buttons -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('midwifeNotes')">Back</button>
-        <button type="button" class="btn btn-primary" onclick="validateLaborDeliveryForm()">Save & Continue</button>
-    </div>
+      <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
 </div>
 
 <script>
@@ -1525,11 +1639,14 @@
         </div>
     </form>
 
-    <!-- Navigation Buttons -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary" onclick="navigate('laborDelivery')">Back</button>
-        <button type="button" class="btn btn-primary" onclick="submitPartograph()">Complete & Submit</button>
-    </div>
+      <!-- Button Row for Navigation -->
+<div class="button-row">
+    <!-- Back Button: Navigates to the previous service -->
+    <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+    <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+    <button id="saveContinueButton" type="button" class="btn btn-primary">Save & Continue</button>
+</div>
 </div>
 
 <script>
@@ -1663,7 +1780,7 @@ document.getElementById('refreshBtn').addEventListener('click', function() {
             showHome();
         });
     </script>
-    <script src="path/to/your/main.js"></script>
+    <script src="js/main.js"></script>
 
     
 </body>

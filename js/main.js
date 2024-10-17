@@ -1,6 +1,6 @@
 // Wait until the DOM content is fully loaded before executing the script
 document.addEventListener('DOMContentLoaded', function() {
-    
+
     // Select all the service links and add event listeners to each
     const serviceLinks = document.querySelectorAll('.nav-link');
     
@@ -65,24 +65,24 @@ document.addEventListener('DOMContentLoaded', function() {
     function navigate(service) {
         console.log('Navigating to: ' + service);
         
-        // Define all services and their respective URLs or sections
+        // Define all services and their respective section IDs
         const services = {
-            'patientRegistration': 'patientRegistration.html',
-            'medicalHistoryRiskFactors': 'medicalHistoryRiskFactors.html',
-            'deliverySummary': 'deliverySummary.html',
-            'partograph': 'partograph.html',
-            'laborProgress': 'laborProgress.html',
-            'labResults': 'labResults.html',
-            'ultrasoundSummary': 'ultrasoundSummary.html',
-            'dischargeDetails': 'dischargeDetails.html',
-            'followUpNotes': 'followUpNotes.html',
-            'prenatalCheckup': 'prenatalCheckup.html',
-            'postpartumHealthCheck': 'postpartumHealthCheck.html'
+            'patientRegistration': 'patientRegistration',
+            'medicalHistoryRiskFactors': 'medicalHistoryRiskFactors',
+            'deliverySummary': 'deliverySummary',
+            'partograph': 'partograph',
+            'laborProgress': 'laborProgress',
+            'labResults': 'labResults',
+            'ultrasoundSummary': 'ultrasoundSummary',
+            'dischargeDetails': 'dischargeDetails',
+            'followUpNotes': 'followUpNotes',
+            'prenatalCheckup': 'prenatalCheckup',
+            'postpartumHealthCheck': 'postpartumHealthCheck'
         };
 
         // Navigate to the requested service if it's defined
         if (services[service]) {
-            window.location.href = services[service];  // Navigate to a different page or section
+            showForm(services[service]);  // Show the corresponding form section
         } else {
             console.log('Unknown service: ' + service);
         }
@@ -117,6 +117,24 @@ document.addEventListener('DOMContentLoaded', function() {
         saveAndContinue('medicalHistoryRiskFactors');  // Save data and continue to medical history
     });
 
+    // Function to make the top navigation sticky
+    window.onscroll = function() {
+        stickyNav();
+    };
+
+    var navbar = document.querySelector(".services-nav");  // Select the top navigation bar
+    var sticky = navbar.offsetTop;  // Get the initial position of the navigation
+
+    // Function to add or remove the sticky class based on scroll position
+    function stickyNav() {
+        if (window.pageYOffset >= sticky) {
+            navbar.classList.add("sticky");
+        } else {
+            navbar.classList.remove("sticky");
+        }
+    }
+
+    // Handle checkbox interactions and form validation
     function handleCheckbox(formId, checkboxId) {
         const form = document.getElementById(formId);
         const checkbox = document.getElementById(checkboxId);
@@ -136,6 +154,4 @@ document.addEventListener('DOMContentLoaded', function() {
         // Further logic to save data or process the form
         alert('Form submitted successfully!');
     }
-    
-
 });

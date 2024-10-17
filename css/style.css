@@ -113,20 +113,53 @@ body {
     }
 }
 
-/* Top bar styling */
+/* Adjust top bar for better spacing */
 #topBar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
+    padding: 10px 20px;
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #topBar h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
     margin: 0;
+}
+
+#topBar #userInfo p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+#topBar #userInfo small {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Style for the sticky navigation bar */
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Center notification icon */
+#topBar #notificationIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 24px;
-    color: #333333;
+    color: #343a40;
+    cursor: pointer;
 }
 
 #topBar #userInfo p {
@@ -153,6 +186,52 @@ body {
     width: 50px;
     height: 50px;
     object-fit: cover;
+}
+
+/* New section for the steps navigation */
+.steps-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.steps-nav .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.steps-nav .step.active {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.steps-nav .step-number {
+    background-color: #28a745;
+    color: white;
+    font-size: 18px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.steps-nav .step-number.inactive {
+    background-color: #e0e0e0;
+}
+
+.steps-nav .step-label {
+    font-size: 14px;
+    color: #6c757d;
 }
 
 /* Table styles */
@@ -355,38 +434,6 @@ legend {
     margin-left: 10px;
 }
 
-/* Other section styles */
-#registeredPatientsTable {
-    width: 100%;
-    border: 1px solid #dee2e6;
-    margin-top: 20px;
-}
-
-#registeredPatientsTable thead th {
-    background-color: #007bff;
-    color: #ffffff;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-#registeredPatientsTable tbody td {
-    padding: 10px;
-}
-
-#registeredPatientsTable tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-#showFiltersBtn {
-    margin-right: 10px;
-}
-
-#refreshBtn {
-    background-color: #28a745;
-    color: #ffffff;
-    margin-left: 10px;
-}
-
 /* Forms for patient registration and other sections */ 
 #patientRegistrationForm, #healthcareFacilityForm, #medicalHistoryForm, #currentPregnancyForm, #socialLivingConditionsForm, #healthExaminationForm, #lifestyleHabitsForm, #mentalHealthSupportForm, #previousPregnanciesForm, #medicationsSupplementsForm, #laboratoryResultsForm, #carePlanForm, #midwifeNotesForm, #laborDeliveryForm, #partographForm {
     background-color: #e0f7da; /* Light green background */
@@ -395,7 +442,7 @@ legend {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: grid; /* Use grid for 2 columns */
     grid-template-columns: 1fr 1fr; /* Two equal columns */
-    grid-gap: 20px; /* Space between columns */
+    grid-gap: 20px;
 }
 
 /* Style for input fields */
@@ -436,8 +483,6 @@ button:hover {
         grid-template-columns: 1fr; /* Single column for mobile */
     }
 }
-
-
 
 /* Canvas styling for the partograph chart */
 #partographCanvas {
@@ -513,4 +558,19 @@ button:hover {
     .table th, .table td {
         font-size: 12px;
     }
+}
+#notificationIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    position: relative;
+}
+
+#notificationIcon i {
+    font-size: 1.5rem;
+    color: #333;
 }
