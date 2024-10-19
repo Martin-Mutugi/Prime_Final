@@ -1,0 +1,614 @@
+/* General styling for the body */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
+    display: flex;
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+/* Sidebar styling */
+#sidebar {
+    width: 250px;
+    background-color: #343a40;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+#sidebar .sidebar-header {
+    text-align: center;
+}
+
+#sidebar .sidebar-header img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    object-fit: cover;
+}
+
+#sidebar h3, #sidebar p {
+    margin: 0;
+    color: #ffffff;
+}
+
+#sidebar p {
+    font-size: 14px;
+    color: #bdc3c7;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 30px;
+}
+
+.sidebar-menu li {
+    margin: 10px 0;
+}
+
+.sidebar-menu li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-menu li a:hover {
+    background-color: #495057;
+}
+
+.sidebar-menu .menu-header {
+    color: #bdc3c7;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+/* Sidebar toggling styles for small screens */
+@media (max-width: 768px) {
+    #sidebar {
+        width: 100px;
+    }
+
+    #sidebar .sidebar-header {
+        display: none;
+    }
+
+    #sidebar .sidebar-menu li a {
+        text-align: center;
+        font-size: 12px;
+    }
+}
+
+/* Content area styling */
+#content {
+    margin-left: 250px;
+    padding: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+}
+
+@media (max-width: 768px) {
+    #content {
+        margin-left: 100px;
+        padding: 15px;
+    }
+}
+
+/* Adjust top bar for better spacing */
+#topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#topBar h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+#topBar #userInfo p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+#topBar #userInfo small {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Style for the sticky navigation bar */
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Center notification icon */
+#topBar #notificationIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #343a40;
+    cursor: pointer;
+}
+
+#topBar #userInfo p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
+}
+
+#topBar #userInfo small {
+    display: block;
+    font-size: 14px;
+    color: #666666;
+}
+
+/* Admin icon in the top bar */
+#topBar #adminIcon {
+    display: flex;
+    align-items: center;
+}
+
+#topBar #adminIcon img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+/* New section for the steps navigation */
+.steps-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.steps-nav .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.steps-nav .step.active {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.steps-nav .step-number {
+    background-color: #28a745;
+    color: white;
+    font-size: 18px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.steps-nav .step-number.inactive {
+    background-color: #e0e0e0;
+}
+
+.steps-nav .step-label {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    font-size: 14px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Added subtle shadow for better design */
+}
+
+th {
+    color: #ffffff; /* Ensures the text is visible on a dark background */
+    font-weight: bold;
+    padding: 12px;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+table thead th {
+    background-color: #007bff; /* Updated to a more vibrant color for headers */
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em; /* Added a little spacing for a cleaner look */
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f8f9fa; /* Slightly lighter shade for alternating rows */
+}
+
+table tbody td {
+    color: #343a40; /* Ensure text is legible */
+}
+
+table tbody td button {
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+table tbody td button.btn-warning {
+    background-color: #ffc107;
+    color: #ffffff;
+}
+
+table tbody td button.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+table tbody td button.btn-danger {
+    background-color: #dc3545;
+    color: #ffffff;
+}
+
+table tbody td button.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.table-striped tbody tr:hover {
+    background-color: #e9ecef; /* Lighter hover effect */
+}
+
+.table-striped tbody td:hover {
+    cursor: default; /* Make sure the cursor doesn’t indicate the cell is clickable */
+}
+
+/* Buttons and forms */
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.button-row {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.input-group .form-control {
+    border-radius: 0.25rem;
+}
+
+.form-control {
+    margin-bottom: 15px;
+}
+
+.was-validated .form-control:invalid ~ .invalid-feedback {
+    display: block;
+}
+
+.invalid-feedback {
+    display: none;
+    color: #dc3545;
+}
+
+input[type="text"], input[type="tel"], input[type="date"], input[type="number"], input[type="time"], input[type="checkbox"], input[type="radio"], select, textarea {
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    font-size: 14px;
+    width: 100%;
+}
+
+input[type="checkbox"], input[type="radio"] {
+    width: auto;
+}
+
+textarea {
+    resize: none;
+}
+
+/* Tab pane styles */
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Nav links */
+.navbar .nav-link {
+    cursor: pointer;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+
+.sticky-nav {
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    z-index: 10;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.services-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 10px;
+}
+
+.services-list li {
+    margin: 0;
+}
+
+.services-list li a {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.services-list li a:hover {
+    background-color: #0056b3;
+}
+
+/* Form fieldset and labels */
+fieldset {
+    border: 1px solid #ced4da;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+legend {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.form-label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Button row for form submissions */
+.button-row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.button-row button {
+    margin-left: 10px;
+}
+
+/* Forms for patient registration and other sections */ 
+#patientRegistrationForm, #healthcareFacilityForm, #medicalHistoryForm, #currentPregnancyForm, #socialLivingConditionsForm, #healthExaminationForm, #lifestyleHabitsForm, #mentalHealthSupportForm, #previousPregnanciesForm, #medicationsSupplementsForm, #laboratoryResultsForm, #carePlanForm, #midwifeNotesForm, #laborDeliveryForm, #partographForm {
+    background-color: #e0f7da; /* Light green background */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: grid; /* Use grid for 2 columns */
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-gap: 20px;
+}
+
+/* Style for input fields */
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+/* Label Styling */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Full-width fields for buttons */
+button {
+    grid-column: span 2; /* Button takes up both columns */
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    #patientRegistrationForm, #healthcareFacilityForm, #medicalHistoryForm, #currentPregnancyForm, #socialLivingConditionsForm, #healthExaminationForm, #lifestyleHabitsForm, #mentalHealthSupportForm, #previousPregnanciesForm, #medicationsSupplementsForm, #laboratoryResultsForm, #carePlanForm, #midwifeNotesForm, #laborDeliveryForm, #partographForm {
+        grid-template-columns: 1fr; /* Single column for mobile */
+    }
+}
+
+/* Canvas styling for the partograph chart */
+#partographCanvas {
+    background-color: #ffffff;
+    border: 1px solid #000;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+/* FontAwesome icons */
+.fas {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+/* Media Queries for small devices */
+@media (max-width: 768px) {
+    .sidebar-header img {
+        width: 80px;
+        height: 80px;
+    }
+
+    #topBar h2 {
+        font-size: 20px;
+    }
+
+    #topBar #userInfo p {
+        font-size: 14px;
+    }
+
+    #topBar #userInfo small {
+        font-size: 12px;
+    }
+
+    #content {
+        margin-left: 100px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    #content {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    #topBar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .table th, .table td {
+        font-size: 12px;
+    }
+}
+
+/* Responsive table styling */
+.table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-responsive > .table {
+    margin-bottom: 0;
+}
+
+@media (max-width: 576px) {
+    .table th, .table td {
+        font-size: 12px;
+    }
+}
+#notificationIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    position: relative;
+}
+
+#notificationIcon i {
+    font-size: 1.5rem;
+    color: #333;
+}

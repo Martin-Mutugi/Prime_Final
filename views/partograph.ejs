@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partograph</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Partograph Section -->
+        <h3>Partograph</h3>
+
+        <!-- Only show the form if patientId is available -->
+        <% if (patientId) { %>
+        <form id="partographForm" action="/add-partograph/<%= patientId %>" method="POST" novalidate>
+            <!-- Labor Progression -->
+            <h5>Labor Progression</h5>
+            <div class="mb-3">
+                <label for="laborTime" class="form-label">Time Interval (hrs)</label>
+                <input type="number" class="form-control" id="laborTime" name="laborTime" required>
+                <div class="invalid-feedback">Please enter the time interval.</div>
+            </div>
+            <div class="mb-3">
+                <label for="cervicalDilation" class="form-label">Cervical Dilation (cm)</label>
+                <input type="number" class="form-control" id="cervicalDilation" name="cervicalDilation" required>
+                <div class="invalid-feedback">Please enter the cervical dilation in cm.</div>
+            </div>
+            <div class="mb-3">
+                <label for="fetalDescent" class="form-label">Fetal Descent Station</label>
+                <input type="number" class="form-control" id="fetalDescent" name="fetalDescent" required>
+                <div class="invalid-feedback">Please enter the fetal descent station.</div>
+            </div>
+
+            <!-- Contractions -->
+            <h5>Contractions</h5>
+            <div class="mb-3">
+                <label for="contractionFrequency" class="form-label">Contraction Frequency (per minute)</label>
+                <input type="number" class="form-control" id="contractionFrequency" name="contractionFrequency" required>
+                <div class="invalid-feedback">Please enter the contraction frequency.</div>
+            </div>
+            <div class="mb-3">
+                <label for="contractionIntensity" class="form-label">Contraction Intensity</label>
+                <input type="text" class="form-control" id="contractionIntensity" name="contractionIntensity" required>
+                <div class="invalid-feedback">Please enter the contraction intensity.</div>
+            </div>
+
+            <!-- Fetal Heart Rate -->
+            <h5>Fetal Heart Rate</h5>
+            <div class="mb-3">
+                <label for="heartRateTime" class="form-label">Time</label>
+                <input type="time" class="form-control" id="heartRateTime" name="heartRateTime" required>
+                <div class="invalid-feedback">Please enter the heart rate time.</div>
+            </div>
+            <div class="mb-3">
+                <label for="heartRateBPM" class="form-label">Heart Rate (BPM)</label>
+                <input type="number" class="form-control" id="heartRateBPM" name="heartRateBPM" required>
+                <div class="invalid-feedback">Please enter the heart rate in BPM.</div>
+            </div>
+
+            <!-- Maternal Pulse -->
+            <h5>Maternal Pulse</h5>
+            <div class="mb-3">
+                <label for="pulseTime" class="form-label">Pulse Time</label>
+                <input type="time" class="form-control" id="pulseTime" name="pulseTime" required>
+                <div class="invalid-feedback">Please enter the maternal pulse time.</div>
+            </div>
+            <div class="mb-3">
+                <label for="pulseBPM" class="form-label">Pulse (BPM)</label>
+                <input type="number" class="form-control" id="pulseBPM" name="pulseBPM" required>
+                <div class="invalid-feedback">Please enter the maternal pulse in BPM.</div>
+            </div>
+
+            <!-- Section for Drawing the Partograph -->
+            <h5>Partograph Chart</h5>
+            <div class="mb-3">
+                <canvas id="partographCanvas" width="800" height="400" style="border:1px solid #000000;"></canvas>
+            </div>
+            <div class="mb-3">
+                <button type="button" class="btn btn-secondary" onclick="drawPartograph()">Draw Partograph</button>
+            </div>
+
+            <!-- Button Row for Navigation -->
+            <div class="button-row">
+                <!-- Back Button: Navigates to the previous service -->
+                <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+                <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+                <button id="saveContinueButton" type="submit" class="btn btn-primary">Save & Continue</button>
+            </div>
+        </form>
+        <% } else { %>
+            <!-- Message displayed if no patient is selected -->
+            <p>No patient selected. Please register a patient first.</p>
+        <% } %>
+    </div>
+
+    <script>
+        // Wait until the DOM content is fully loaded before executing
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('partographForm');
+
+            // Add custom form validation logic
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();  // Prevent submission if invalid
+                    form.classList.add('was-validated');
+                } else {
+                    alert('Partograph details saved successfully!');
+                }
+            }, false);
+
+            // Handle back button navigation
+            document.getElementById('backButton').addEventListener('click', function() {
+                window.history.back();  // Navigate to the previous section
+            });
+        });
+
+        // Function to draw partograph based on user input
+        function drawPartograph() {
+            const canvas = document.getElementById('partographCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Clear previous drawing
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Example: Drawing axes and labels
+            ctx.beginPath();
+            ctx.moveTo(50, 350); // X-axis starting point
+            ctx.lineTo(750, 350); // X-axis ending point
+            ctx.moveTo(50, 350); // Y-axis starting point
+            ctx.lineTo(50, 50);  // Y-axis ending point
+            ctx.stroke();
+
+            // Labels for axes
+            ctx.font = '12px Arial';
+            ctx.fillText('Time (hrs)', 380, 370);
+            ctx.fillText('Cervical Dilation (cm)', 10, 50);
+
+            // Get user inputs for cervical dilation and labor progression
+            const laborTime = document.getElementById('laborTime').value;
+            const cervicalDilation = document.getElementById('cervicalDilation').value;
+            const fetalDescent = document.getElementById('fetalDescent').value;
+            const contractionFrequency = document.getElementById('contractionFrequency').value;
+            const heartRateBPM = document.getElementById('heartRateBPM').value;
+
+            // Plot the user-defined data points
+            const time = parseFloat(laborTime);
+            const dilation = parseFloat(cervicalDilation);
+            const descent = parseFloat(fetalDescent);
+
+            // Scale values to fit canvas
+            const xPosition = 50 + time * 70; // Scaling time to fit canvas
+            const yPosition = 350 - dilation * 30; // Scaling dilation to fit canvas
+
+            // Draw the points for cervical dilation and other user data
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(xPosition, yPosition, 5, 5); // Plot point for cervical dilation
+
+            // Example to show a fetal descent data point
+            const fetalDescentPosition = 350 - descent * 20;
+            ctx.fillStyle = 'green';
+            ctx.fillRect(xPosition, fetalDescentPosition, 5, 5); // Plot point for fetal descent
+
+            // Example to show a contraction frequency data point
+            const contractionPosition = 350 - contractionFrequency * 10;
+            ctx.fillStyle = 'red';
+            ctx.fillRect(xPosition, contractionPosition, 5, 5); // Plot point for contractions
+
+            // Example to show heart rate data point
+            const heartRatePosition = 350 - (heartRateBPM - 120) * 2; // Assumes a normal baseline of 120 BPM
+            ctx.fillStyle = 'purple';
+            ctx.fillRect(xPosition, heartRatePosition, 5, 5); // Plot point for heart rate
+
+            ctx.stroke();  // Apply all strokes to the canvas
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labor and Delivery</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Labor and Delivery Section -->
+        <h3>Labor and Delivery</h3>
+
+        <!-- Only show the form if patientId is available -->
+        <% if (patientId) { %>
+        <form id="laborDeliveryForm" action="/add-labor-delivery/<%= patientId %>" method="POST" novalidate>
+            <!-- Delivery Details -->
+            <h5>Delivery Details</h5>
+            <div class="mb-3">
+                <label for="deliveryDate" class="form-label">Delivery Date</label>
+                <input type="date" class="form-control" id="deliveryDate" name="deliveryDate" required>
+                <div class="invalid-feedback">Please enter the delivery date.</div>
+            </div>
+            <div class="mb-3">
+                <label for="deliveryType" class="form-label">Delivery Type</label>
+                <input type="text" class="form-control" id="deliveryType" name="deliveryType" placeholder="e.g., Vaginal, C-section" required>
+                <div class="invalid-feedback">Please enter the delivery type.</div>
+            </div>
+            <div class="mb-3">
+                <label for="babySex" class="form-label">Sex of Baby</label>
+                <input type="text" class="form-control" id="babySex" name="babySex" placeholder="e.g., Male, Female" required>
+                <div class="invalid-feedback">Please enter the sex of the baby.</div>
+            </div>
+            <div class="mb-3">
+                <label for="gestationalAge" class="form-label">Gestational Age</label>
+                <input type="text" class="form-control" id="gestationalAge" name="gestationalAge" placeholder="e.g., 39 weeks" required>
+                <div class="invalid-feedback">Please enter the gestational age.</div>
+            </div>
+            <div class="mb-3">
+                <label for="birthWeight" class="form-label">Birth Weight (grams)</label>
+                <input type="number" class="form-control" id="birthWeight" name="birthWeight" required>
+                <div class="invalid-feedback">Please enter the birth weight.</div>
+            </div>
+            <div class="mb-3">
+                <label for="birthLength" class="form-label">Birth Length (cm)</label>
+                <input type="number" class="form-control" id="birthLength" name="birthLength" required>
+                <div class="invalid-feedback">Please enter the birth length.</div>
+            </div>
+            <div class="mb-3">
+                <label for="headCircumference" class="form-label">Head Circumference (cm)</label>
+                <input type="number" class="form-control" id="headCircumference" name="headCircumference" required>
+                <div class="invalid-feedback">Please enter the head circumference.</div>
+            </div>
+
+            <!-- Apgar Score -->
+            <h5>Apgar Score</h5>
+            <div class="mb-3">
+                <label for="apgar1min" class="form-label">1 Minute</label>
+                <input type="number" class="form-control" id="apgar1min" name="apgar1min" required>
+                <div class="invalid-feedback">Please enter the Apgar score at 1 minute.</div>
+            </div>
+            <div class="mb-3">
+                <label for="apgar5min" class="form-label">5 Minutes</label>
+                <input type="number" class="form-control" id="apgar5min" name="apgar5min" required>
+                <div class="invalid-feedback">Please enter the Apgar score at 5 minutes.</div>
+            </div>
+            <div class="mb-3">
+                <label for="apgar10min" class="form-label">10 Minutes</label>
+                <input type="number" class="form-control" id="apgar10min" name="apgar10min" required>
+                <div class="invalid-feedback">Please enter the Apgar score at 10 minutes.</div>
+            </div>
+
+            <!-- Postnatal Observation -->
+            <h5>Postnatal Observation</h5>
+            <div class="mb-3">
+                <label for="babyStatus" class="form-label">Baby Status</label>
+                <input type="text" class="form-control" id="babyStatus" name="babyStatus" placeholder="e.g., Healthy, Distressed" required>
+                <div class="invalid-feedback">Please enter the baby's status.</div>
+            </div>
+
+            <!-- Button Row for Navigation -->
+            <div class="button-row">
+                <!-- Back Button: Navigates to the previous service -->
+                <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+                <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+                <button id="saveContinueButton" type="submit" class="btn btn-primary">Save & Continue</button>
+            </div>
+
+        </form>
+        <% } else { %>
+            <!-- Message displayed if no patient is selected -->
+            <p>No patient selected. Please register a patient first.</p>
+        <% } %>
+    </div>
+
+    <script>
+        // Wait until the DOM content is fully loaded before executing
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('laborDeliveryForm');
+
+            // Add custom form validation logic
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();  // Prevent submission if invalid
+                    form.classList.add('was-validated');
+                } else {
+                    alert('Labor and delivery details saved successfully!');
+                }
+            }, false);
+
+            // Handle back button navigation
+            document.getElementById('backButton').addEventListener('click', function() {
+                window.history.back();  // Navigate to the previous section
+            });
+        });
+    </script>
+</body>
+</html>

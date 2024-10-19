@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Registration</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Patient Registration Section -->
+        <h3>Patient Registration</h3>
+        <form action="/register-patient" method="POST" id="patientRegistrationForm" novalidate>
+            <!-- Personal Number -->
+            <div class="mb-3">
+                <label for="personalNumber" class="form-label">Personal Number</label>
+                <input type="text" class="form-control" id="personalNumber" name="personalNumber" required>
+                <div class="invalid-feedback">Please enter a personal number.</div>
+            </div>
+
+            <!-- Full Name -->
+            <div class="mb-3">
+                <label for="fullName" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="fullName" name="fullName" required>
+                <div class="invalid-feedback">Please enter the full name.</div>
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="mb-3">
+                <label for="birthDate" class="form-label">Date of Birth (yy/mm/dd)</label>
+                <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+                <div class="invalid-feedback">Please enter the date of birth.</div>
+            </div>
+
+            <!-- Address -->
+            <h5>Address</h5>
+            <div class="mb-3">
+                <label for="street" class="form-label">Street</label>
+                <input type="text" class="form-control" id="street" name="street" required>
+                <div class="invalid-feedback">Please enter the street address.</div>
+            </div>
+            <div class="mb-3">
+                <label for="postalCode" class="form-label">Postal Code</label>
+                <input type="text" class="form-control" id="postalCode" name="postalCode" required>
+                <div class="invalid-feedback">Please enter the postal code.</div>
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" id="city" name="city" required>
+                <div class="invalid-feedback">Please enter the city.</div>
+            </div>
+            <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" class="form-control" id="country" name="country" required>
+                <div class="invalid-feedback">Please enter the country.</div>
+            </div>
+
+            <!-- Mobile Phone -->
+            <div class="mb-3">
+                <label for="mobilePhone" class="form-label">Mobile Phone</label>
+                <input type="tel" class="form-control" id="mobilePhone" name="mobilePhone" required>
+                <div class="invalid-feedback">Please enter a valid mobile phone number.</div>
+            </div>
+
+            <!-- Emergency Contact -->
+            <h5>Emergency Contact</h5>
+            <div class="mb-3">
+                <label for="emergencyName" class="form-label">Emergency Contact Name</label>
+                <input type="text" class="form-control" id="emergencyName" name="emergencyName" required>
+                <div class="invalid-feedback">Please enter the emergency contact name.</div>
+            </div>
+            <div class="mb-3">
+                <label for="relationship" class="form-label">Relationship</label>
+                <input type="text" class="form-control" id="relationship" name="relationship" required>
+                <div class="invalid-feedback">Please enter the relationship.</div>
+            </div>
+            <div class="mb-3">
+                <label for="emergencyMobile" class="form-label">Emergency Mobile Phone</label>
+                <input type="tel" class="form-control" id="emergencyMobile" name="emergencyMobile" required>
+                <div class="invalid-feedback">Please enter a valid emergency contact phone number.</div>
+            </div>
+
+            <!-- Age at Delivery (optional) -->
+            <div class="mb-3">
+                <label for="ageAtDelivery" class="form-label">Age at Delivery (if applicable)</label>
+                <input type="text" class="form-control" id="ageAtDelivery" name="ageAtDelivery">
+            </div>
+
+            <!-- Registration Information -->
+            <h5>Registration Information</h5>
+            <div class="mb-3">
+                <label for="inscriptionDate" class="form-label">Inscription Date (yy/mm/dd)</label>
+                <input type="date" class="form-control" id="inscriptionDate" name="inscriptionDate" required>
+                <div class="invalid-feedback">Please enter the inscription date.</div>
+            </div>
+            <div class="mb-3">
+                <label for="mvcNumber" class="form-label">MVC Number</label>
+                <input type="text" class="form-control" id="mvcNumber" name="mvcNumber" required>
+                <div class="invalid-feedback">Please enter the MVC number.</div>
+            </div>
+            <div class="mb-3">
+                <label for="doctorNurse" class="form-label">Doctor or Nurse</label>
+                <input type="text" class="form-control" id="doctorNurse" name="doctorNurse" required>
+                <div class="invalid-feedback">Please enter the name of the doctor or nurse.</div>
+            </div>
+            <div class="mb-3">
+                <label for="insuranceNumber" class="form-label">Insurance Number</label>
+                <input type="text" class="form-control" id="insuranceNumber" name="insuranceNumber" required>
+                <div class="invalid-feedback">Please enter the insurance number.</div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="button-row">
+                <button id="saveContinueButton" type="submit" class="btn btn-primary">Save & Continue</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Wait until the DOM content is fully loaded before executing
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('patientRegistrationForm');
+
+            // Add custom form validation logic
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();  // Prevent submission if invalid
+                    form.classList.add('was-validated');
+                } else {
+                    alert('Patient registration saved successfully!');
+                }
+            }, false);
+        });
+    </script>
+</body>
+</html>

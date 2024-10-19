@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medications and Supplements</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Medications and Supplements Section -->
+        <h3>Medications and Supplements</h3>
+
+        <!-- Only show the form if patientId is available -->
+        <% if (patientId) { %>
+        <form id="medicationsSupplementsForm" action="/add-medications-supplements/<%= patientId %>" method="POST" novalidate>
+
+            <!-- Medications Section -->
+            <h5>Medications</h5>
+            <div class="mb-3">
+                <label for="medicationName" class="form-label">Medication Name</label>
+                <input type="text" class="form-control" id="medicationName" name="medicationName" placeholder="e.g., Paracetamol" required>
+                <div class="invalid-feedback">Please enter the medication name.</div>
+            </div>
+            <div class="mb-3">
+                <label for="medicationDosage" class="form-label">Dosage</label>
+                <input type="text" class="form-control" id="medicationDosage" name="medicationDosage" placeholder="e.g., 500 mg, 3 times a day" required>
+                <div class="invalid-feedback">Please enter the medication dosage.</div>
+            </div>
+            <div class="mb-3">
+                <label for="medicationStartDate" class="form-label">Start Date</label>
+                <input type="date" class="form-control" id="medicationStartDate" name="medicationStartDate" required>
+                <div class="invalid-feedback">Please enter the medication start date.</div>
+            </div>
+            <div class="mb-3">
+                <label for="indication" class="form-label">Indication</label>
+                <input type="text" class="form-control" id="indication" name="indication" placeholder="e.g., Pain relief" required>
+                <div class="invalid-feedback">Please enter the indication for this medication.</div>
+            </div>
+
+            <!-- Supplements Section -->
+            <h5>Supplements</h5>
+            <div class="mb-3">
+                <label for="supplementName" class="form-label">Supplement Name</label>
+                <input type="text" class="form-control" id="supplementName" name="supplementName" placeholder="e.g., Folic Acid" required>
+                <div class="invalid-feedback">Please enter the supplement name.</div>
+            </div>
+            <div class="mb-3">
+                <label for="supplementDosage" class="form-label">Dosage</label>
+                <input type="text" class="form-control" id="supplementDosage" name="supplementDosage" placeholder="e.g., 400 mcg, once a day" required>
+                <div class="invalid-feedback">Please enter the supplement dosage.</div>
+            </div>
+            <div class="mb-3">
+                <label for="supplementStartDate" class="form-label">Start Date</label>
+                <input type="date" class="form-control" id="supplementStartDate" name="supplementStartDate" required>
+                <div class="invalid-feedback">Please enter the supplement start date.</div>
+            </div>
+
+            <!-- Button Row for Navigation -->
+            <div class="button-row">
+                <!-- Back Button: Navigates to the previous service -->
+                <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+                <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+                <button id="saveContinueButton" type="submit" class="btn btn-primary">Save & Continue</button>
+            </div>
+
+        </form>
+        <% } else { %>
+            <!-- Message displayed if no patient is selected -->
+            <p>No patient selected. Please register a patient first.</p>
+        <% } %>
+    </div>
+
+    <script>
+        // Wait until the DOM content is fully loaded before executing
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('medicationsSupplementsForm');
+
+            // Add custom form validation logic
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();  // Prevent submission if invalid
+                    form.classList.add('was-validated');
+                } else {
+                    alert('Medications and Supplements saved successfully!');
+                }
+            }, false);
+
+            // Handle back button navigation
+            document.getElementById('backButton').addEventListener('click', function() {
+                window.history.back();  // Navigate to the previous section
+            });
+        });
+    </script>
+</body>
+</html>

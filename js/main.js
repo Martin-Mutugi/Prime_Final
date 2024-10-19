@@ -1,5 +1,5 @@
 // Wait until the DOM content is fully loaded before executing the script
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
     // Select all the service links and add event listeners to each
     const serviceLinks = document.querySelectorAll('.nav-link');
@@ -13,8 +13,34 @@ document.addEventListener('DOMContentLoaded', function() {
             form.style.display = 'none';  // Hide all forms
         });
     }
+
+    // Add event listener for patient registration form submission with validation
+    document.getElementById('patientRegistrationForm').addEventListener('submit', function(e) {
+        const form = this;
+        if (!form.checkValidity()) {
+            e.preventDefault();  // Prevent form submission if invalid
+            form.classList.add('was-validated');
+        }
+    });
+
+    // Add event listener for search functionality within the patient table
+    document.getElementById('searchPatient').addEventListener('input', function () {
+        const searchValue = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#registeredPatientsTable tbody tr');
+        
+        rows.forEach(row => {
+            const fullName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            const personalNumber = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
     
-    // Function to show the selected form and keep the service navigation visible
+            if (fullName.includes(searchValue) || personalNumber.includes(searchValue)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+
+    // Function to show the selected form and hide others
     function showForm(formId) {
         hideAllForms();  // First hide all forms
         const form = document.getElementById(formId);
@@ -23,64 +49,57 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Notification alert for notification icon
-    document.getElementById('notificationIcon').addEventListener('click', function() {
-        alert("You have new notifications!");
-    });
-
-    // Dynamic content loader for services
-    function showService(serviceId) {
-        document.getElementById('serviceContent').innerHTML = `<p>Loading content for ${serviceId}...</p>`;
-        
-        // Simulate loading content dynamically (you can replace this with actual form content)
-        setTimeout(function() {
-            document.getElementById('serviceContent').innerHTML = `
-                <h3>${serviceId}</h3>
-                <p>This is where the form for ${serviceId} will appear.</p>`;
-        }, 1000);
-    }
-
-    // Add click events to each service link
-    serviceLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();  // Prevent default anchor behavior
-            
-            // Get the ID of the form to show from the link's data-form attribute
-            const formId = this.getAttribute('data-form');
-            showForm(formId);  // Show the corresponding form
-        });
-    });
-    
-    // By default, show the first form or message when the page loads
-    if (serviceForms.length > 0) {
-        hideAllForms();
-        const defaultForm = document.getElementById('defaultService');
-        if (defaultForm) {
-            defaultForm.style.display = 'block';  // Show the default form or message
+    // Function to save form data and navigate to the next section
+    function saveAndContinue(nextService, formId, patientId) {
+        const form = document.getElementById(formId);
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;  // Stop if the form is not valid
         }
+
+        // Collect form data and append patientId
+        const formData = new FormData(form);
+        formData.append('patientId', patientId);  // Ensure patientId is included in the form data
+
+        // Send form data to backend (using fetch)
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Data saved successfully!', data);
+                navigate(nextService, patientId);  // Navigate to the next service section
+            } else {
+                alert('Error saving data: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error saving data:', error);
+        });
     }
 
-    // Navigation functions for navigating between services and saving data
-    // Function to navigate to a specific service (previous or next)
-    function navigate(service) {
-        console.log('Navigating to: ' + service);
-        
-        // Define all services and their respective section IDs
+    // Function to navigate between services and save data
+    function navigate(service, patientId) {
         const services = {
             'patientRegistration': 'patientRegistration',
+            'healthcareFacility': 'healthcareFacility', // Added healthcare facility after patient registration
             'medicalHistoryRiskFactors': 'medicalHistoryRiskFactors',
-            'deliverySummary': 'deliverySummary',
-            'partograph': 'partograph',
-            'laborProgress': 'laborProgress',
-            'labResults': 'labResults',
-            'ultrasoundSummary': 'ultrasoundSummary',
-            'dischargeDetails': 'dischargeDetails',
-            'followUpNotes': 'followUpNotes',
-            'prenatalCheckup': 'prenatalCheckup',
-            'postpartumHealthCheck': 'postpartumHealthCheck'
+            'currentPregnancyDetails': 'currentPregnancyDetails',
+            'socialLivingConditions': 'socialLivingConditions',
+            'healthExamination': 'healthExamination',
+            'lifestyleHabits': 'lifestyleHabits',
+            'mentalHealthSupport': 'mentalHealthSupport',
+            'previousPregnancies': 'previousPregnancies',
+            'medicationsSupplements': 'medicationsSupplements',
+            'laboratoryResults': 'laboratoryResults',
+            'carePlan': 'carePlan',
+            'midwifeNotes': 'midwifeNotes',
+            'laborDelivery': 'laborDelivery',
+            'partograph': 'partograph'
         };
 
-        // Navigate to the requested service if it's defined
         if (services[service]) {
             showForm(services[service]);  // Show the corresponding form section
         } else {
@@ -88,44 +107,113 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Function to save data and continue to the next service
-    function saveAndContinue(nextService) {
-        // Placeholder for save functionality (e.g., API call, local storage, etc.)
-        console.log('Saving data for the current service...');
-
-        // Simulate data save with a success message
-        console.log('Data saved successfully!');
-
-        // After saving, navigate to the next service
-        navigate(nextService);
-    }
-
-    // Function to go back to the previous service
-    function goBack(previousService) {
+    // Go back to the previous service
+    function goBack(previousService, patientId) {
         console.log('Going back to: ' + previousService);
-
-        // Navigate to the previous service
-        navigate(previousService);
+        navigate(previousService, patientId);
     }
 
-    // Attach the navigation functionality to the buttons (example)
-    document.getElementById('backButton').addEventListener('click', function() {
-        goBack('patientRegistration');  // Navigate back to patient registration
+    // Add event listeners to navigation buttons for all sections
+
+    // Patient Registration to Healthcare Facility
+    document.getElementById('savePatientRegistrationButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('healthcareFacility', 'patientRegistrationForm', patientId);  // Navigate to healthcare facility
     });
 
-    document.getElementById('saveContinueButton').addEventListener('click', function() {
-        saveAndContinue('medicalHistoryRiskFactors');  // Save data and continue to medical history
+    // Healthcare Facility to Medical History
+    document.getElementById('saveHealthcareFacilityButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('medicalHistoryRiskFactors', 'healthcareFacilityForm', patientId);  // Continue to medical history
     });
 
-    // Function to make the top navigation sticky
-    window.onscroll = function() {
+    // Medical History to Current Pregnancy Details
+    document.getElementById('saveMedicalHistoryButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('currentPregnancyDetails', 'medicalHistoryForm', patientId);
+    });
+
+    // Current Pregnancy Details to Social Living Conditions
+    document.getElementById('saveCurrentPregnancyButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('socialLivingConditions', 'currentPregnancyForm', patientId);
+    });
+
+    // Social Living Conditions to Health Examination
+    document.getElementById('saveSocialLivingConditionsButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('healthExamination', 'socialLivingConditionsForm', patientId);
+    });
+
+    // Health Examination to Lifestyle Habits
+    document.getElementById('saveHealthExaminationButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('lifestyleHabits', 'healthExaminationForm', patientId);
+    });
+
+    // Lifestyle Habits to Mental Health Support
+    document.getElementById('saveLifestyleHabitsButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('mentalHealthSupport', 'lifestyleHabitsForm', patientId);
+    });
+
+    // Mental Health Support to Previous Pregnancies
+    document.getElementById('saveMentalHealthSupportButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('previousPregnancies', 'mentalHealthSupportForm', patientId);
+    });
+
+    // Previous Pregnancies to Medications and Supplements
+    document.getElementById('savePreviousPregnanciesButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('medicationsSupplements', 'previousPregnanciesForm', patientId);
+    });
+
+    // Medications and Supplements to Laboratory Results
+    document.getElementById('saveMedicationsSupplementsButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('laboratoryResults', 'medicationsSupplementsForm', patientId);
+    });
+
+    // Laboratory Results to Care Plan
+    document.getElementById('saveLaboratoryResultsButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('carePlan', 'laboratoryResultsForm', patientId);
+    });
+
+    // Care Plan to Midwife Notes
+    document.getElementById('saveCarePlanButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('midwifeNotes', 'carePlanForm', patientId);
+    });
+
+    // Midwife Notes to Labor and Delivery
+    document.getElementById('saveMidwifeNotesButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('laborDelivery', 'midwifeNotesForm', patientId);
+    });
+
+    // Labor and Delivery to Partograph
+    document.getElementById('saveLaborDeliveryButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('partograph', 'laborDeliveryForm', patientId);
+    });
+
+    // Final step for Partograph
+    document.getElementById('savePartographButton').addEventListener('click', function () {
+        const patientId = document.getElementById('patientId').value;
+        saveAndContinue('finalReview', 'partographForm', patientId);  // Proceed to final review or completion
+    });
+
+    // Make the top navigation sticky when scrolling
+    window.onscroll = function () {
         stickyNav();
     };
 
     var navbar = document.querySelector(".services-nav");  // Select the top navigation bar
     var sticky = navbar.offsetTop;  // Get the initial position of the navigation
 
-    // Function to add or remove the sticky class based on scroll position
+    // Add or remove the sticky class based on scroll position
     function stickyNav() {
         if (window.pageYOffset >= sticky) {
             navbar.classList.add("sticky");
@@ -138,20 +226,18 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleCheckbox(formId, checkboxId) {
         const form = document.getElementById(formId);
         const checkbox = document.getElementById(checkboxId);
-    
+
         if (checkbox.checked) {
             console.log(`${checkboxId} is checked`);
         } else {
             console.log(`${checkboxId} is unchecked`);
         }
-        
-        // Ensure form validation checks
+
         if (!form.checkValidity()) {
             form.classList.add('was-validated');
             return;  // Stop if the form is not valid
         }
-        
-        // Further logic to save data or process the form
+
         alert('Form submitted successfully!');
     }
 });

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maternal Health Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        /* Sidebar Styling */
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background-color: #343a40;
+            color: #fff;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        #sidebar .nav-link {
+            color: #ffffff;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        #sidebar .nav-link:hover {
+            background-color: #495057;
+            border-radius: 5px;
+        }
+        /* Admin Icon at top-right */
+        #adminIcon {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        #adminIcon img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+        }
+        /* Content Area */
+        #content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f8f9fa;
+            overflow-y: auto;
+        }
+        /* Forms Styling */
+        .tab-pane {
+            display: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        
+    </style>
+</head>
+<body>
+   <!-- Sidebar -->
+<div id="sidebar">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+        <img src="images/Prime.png" class="sidebar-image">
+        <h3>Maternal Portal</h3> <br>
+        <p>Maternal Healthcare</p>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <ul class="sidebar-menu">
+        <!-- Home -->
+        <li><a href="#" class="menu-link" onclick="showHome()"><i class="fas fa-home"></i> Home</a></li>
+
+        <li><a href="#" class="menu-link" onclick="showRegisterPatient()"><i class="fas fa-user-plus"></i> Register Patients</a></li>
+
+
+        <!-- Other Services -->
+        <li><a href="#" class="menu-link" onclick="showOtherServices()"><i class="fas fa-clinic-medical"></i> Other Services</a></li>
+
+        <!-- Settings Section -->
+        <li class="menu-header">Settings</li>
+        <li><a href="#" class="menu-link"><i class="fas fa-user-cog"></i> Account Settings</a></li>
+        <li><a href="#" class="menu-link"><i class="fas fa-calendar-alt"></i> Calendar</a></li>
+        <li><a href="#" class="menu-link"><i class="fas fa-bell"></i> Notifications</a></li>
+
+        <!-- Support Section -->
+        <li class="menu-header">Support</li>
+        <li><a href="#" class="menu-link"><i class="fas fa-comments"></i> Chat</a></li>
+        <li><a href="#" class="menu-link"><i class="fas fa-headset"></i> Customer Support</a></li>
+    </ul>
+</div>
+
+    
+    <!-- Content Area -->
+    <div id="content">
+        <div id="topBar" class="d-flex justify-content-between align-items-center">
+            <!-- Left side (Title) -->
+            <h2>Maternal Health Portal</h2>
+        
+            <!-- Right side (Admin Icon, Name, and Notification) -->
+            <div class="d-flex align-items-center">
+                <!-- Notification Icon -->
+                <div id="notificationIcon" class="mr-3" style="align-items: center;">
+                    <i class="fas fa-bell"></i>
+                </div>
+        
+                <!-- User Name and Role -->
+                <div id="userInfo" class="mr-3">
+                    <p>Martin Mutugi</p>
+                    <small>Mid Wife</small>
+                </div>
+        
+                <!-- Admin Profile Icon -->
+                <div id="adminIcon">
+                    <img src="https://via.placeholder.com/50" alt="Admin Profile" class="rounded-circle">
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Home Section (Search Bar and Registered Patients) -->
+<div id="homeSection" class="tab-pane active">
+    <!-- Header Section with Buttons -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Registered Patients</h2>
+        <div>
+            <!-- Show Filters Button -->
+            <button id="showFiltersBtn" class="btn btn-primary mr-2"><i class="fas fa-filter"></i> Show Filters</button>
+            <!-- Refresh Button -->
+            <button id="refreshBtn" class="btn btn-success"><i class="fas fa-sync-alt"></i> Refresh</button>
+        </div>
+    </div>
+    
+    <!-- Search Bar -->
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" id="searchPatient" placeholder="Search patient by name or ID">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button">Search</button>
+        </div>
+    </div>
+
+   <!-- Registered Patients Table -->
+<table class="table table-striped" id="registeredPatientsTable">
+    <thead>
+        <tr>
+            <th>Personal Number</th>
+            <th>Full Name</th>
+            <th>Date of Birth</th>
+            <th>Mobile Phone</th>
+            <th>Emergency Contact</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (patients && patients.length > 0) { %>
+            <% patients.forEach(patient => { %>
+                <tr>
+                    <td><%= patient.personalNumber %></td>
+                    <td><%= patient.fullName %></td>
+                    <td><%= patient.birthDate %></td>
+                    <td><%= patient.mobilePhone %></td>
+                    <td><%= patient.emergencyContact.name %></td>
+                    <td>
+                        <!-- Delete and Edit buttons -->
+                        <form action="/delete-patient/<%= patient.id %>" method="POST" style="display:inline;">
+                            <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                        </form>
+                        <button class="btn btn-sm btn-warning" onclick="openEditModal('<%= patient.id %>', '<%= patient.personalNumber %>', '<%= patient.fullName %>', '<%= patient.birthDate %>')">Edit</button>
+                    </td>
+                </tr>
+            <% }); %>
+        <% } else { %>
+            <tr>
+                <td colspan="6" class="text-center">No registered patients found</td>
+            </tr>
+        <% } %>
+    </tbody>
+</table>
+
+<!-- Modal for editing patient details -->
+<div id="editModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <form id="editForm" action="/edit-patient" method="POST">
+            <input type="hidden" id="editPatientId" name="patientId" />
+            
+            <!-- Personal Number -->
+            <div class="mb-3">
+                <label for="editPersonalNumber" class="form-label">Personal Number</label>
+                <input type="text" id="editPersonalNumber" name="personalNumber" class="form-control" required />
+            </div>
+            
+            <!-- Full Name -->
+            <div class="mb-3">
+                <label for="editFullName" class="form-label">Full Name</label>
+                <input type="text" id="editFullName" name="fullName" class="form-control" required />
+            </div>
+            
+            <!-- Date of Birth -->
+            <div class="mb-3">
+                <label for="editBirthDate" class="form-label">Date of Birth</label>
+                <input type="date" id="editBirthDate" name="birthDate" class="form-control" required />
+            </div>
+            
+            <!-- Mobile Phone -->
+            <div class="mb-3">
+                <label for="editMobilePhone" class="form-label">Mobile Phone</label>
+                <input type="tel" id="editMobilePhone" name="mobilePhone" class="form-control" required />
+            </div>
+            
+            <!-- Emergency Contact -->
+            <div class="mb-3">
+                <label for="editEmergencyName" class="form-label">Emergency Contact Name</label>
+                <input type="text" id="editEmergencyName" name="emergencyContactName" class="form-control" required />
+            </div>
+            
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+        
+        <!-- Close button -->
+        <button onclick="closeEditModal()" class="btn btn-secondary">Close</button>
+    </div>
+</div>
+
+<!-- JavaScript for handling the modal -->
+<script>
+    // Function to open the edit modal and populate it with patient data
+    function openEditModal(patientId, personalNumber, fullName, birthDate) {
+        document.getElementById('editModal').style.display = 'block';  // Show the modal
+        document.getElementById('editPatientId').value = patientId;  // Set the patient ID in the hidden input field
+        document.getElementById('editPersonalNumber').value = personalNumber;  // Populate the personal number field
+        document.getElementById('editFullName').value = fullName;  // Populate the full name field
+        document.getElementById('editBirthDate').value = birthDate;  // Populate the birth date field
+    }
+
+    // Function to close the modal
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';  // Hide the modal
+    }
+</script>
+
+<!-- Script for Search functionality -->
+<script>
+    document.getElementById('searchPatient').addEventListener('input', function() {
+        const searchValue = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#registeredPatientsTable tbody tr');
+        
+        rows.forEach(row => {
+            const fullName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            const personalNumber = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+    
+            if (fullName.includes(searchValue) || personalNumber.includes(searchValue)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+
+</div>
+
+    
+  <!-- Other Services Section -->
+<div id="otherServicesSection" class="tab-pane">
+    <!-- Top Navigation for Other Services -->
+    <nav class="services-nav sticky-nav">
+        <ul class="services-list">
+            <li><a href="#" onclick="showService('healthcareFacility')">Healthcare Facility</a></li>
+            <li><a href="#" onclick="showService('medicalHistoryRiskFactors')">Medical History and Risk Factors</a></li>
+            <li><a href="#" onclick="showService('currentPregnancyDetails')">Current Pregnancy Details</a></li>
+            <li><a href="#" onclick="showService('socialLivingConditions')">Social and Living Conditions</a></li>
+            <li><a href="#" onclick="showService('healthExamination')">Health Examination</a></li>
+            <li><a href="#" onclick="showService('lifestyleHabits')">Lifestyle and Habits</a></li>
+            <li><a href="#" onclick="showService('mentalHealthSupport')">Mental Health and Support</a></li>
+            <li><a href="#" onclick="showService('previousPregnancies')">Previous Pregnancies</a></li>
+            <li><a href="#" onclick="showService('medicationsSupplements')">Medications and Supplements</a></li>
+            <li><a href="#" onclick="showService('laboratoryResults')">Laboratory Results</a></li>
+            <li><a href="#" onclick="showService('carePlan')">Care Plan</a></li>
+            <li><a href="#" onclick="showService('midwifeNotes')">Midwife Notes</a></li>
+            <li><a href="#" onclick="showService('laborDelivery')">Labor and Delivery</a></li>
+            <li><a href="#" onclick="showService('partograph')">Partograph</a></li>
+        </ul>
+    </nav>
+    <!-- Content section where the selected service form will appear -->
+    <div id="serviceContent">
+        <h3>Select a service from the top navigation</h3>
+    </div>
+</div>
+
+
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- FontAwesome Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        function showHome() {
+            hideAllSections();
+            document.getElementById('homeSection').classList.add('active');
+        }
+    
+        function showRegisterPatient() {
+    window.location.href = '/register-patient';
+}
+
+        function showOtherServices() {
+            hideAllSections();
+            document.getElementById('otherServicesSection').classList.add('active');
+            document.getElementById('otherServicesTopNav').classList.remove('hide');  // Make the top navigation visible
+        }
+    
+        function showService(serviceId) {
+            hideAllSections();
+            document.getElementById(serviceId).classList.add('active');
+            document.getElementById('otherServicesTopNav').classList.remove('hide');  // Ensure top navigation remains visible
+        }
+    
+        function hideAllSections() {
+            const sections = document.querySelectorAll('.tab-pane');
+            sections.forEach(section => {
+                section.classList.remove('active');
+                section.classList.add('hide');
+            });
+        }
+    
+        function registerPatient() {
+            alert('Patient registered successfully!');
+            // Registration logic can be added here
+        }
+
+        document.getElementById('showFiltersBtn').addEventListener('click', function() {
+    // Toggle the visibility of filters section
+    alert("Show filters clicked!");
+});
+
+document.getElementById('refreshBtn').addEventListener('click', function() {
+    // Refresh the data or perform desired actions
+    location.reload();  // This will reload the page, or you can call a function to refresh data.
+});
+
+    
+        // Show Home section by default on load
+        document.addEventListener('DOMContentLoaded', () => {
+            showHome();
+        });
+    </script>
+    <script src="js/main.js"></script>
+
+    
+</body>
+</html>

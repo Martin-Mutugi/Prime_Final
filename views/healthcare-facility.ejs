@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Facility</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Healthcare Facility Section -->
+        <h3>Healthcare Facility and Registration Details</h3>
+
+        <!-- Only show the form if patientId is available -->
+        <% if (patientId) { %>  
+        <form id="healthcareFacilityForm" action="/add-healthcare-facility/<%= patientId %>" method="POST" novalidate>
+            
+            <!-- Registration Date -->
+            <div class="mb-3">
+                <label for="registrationDate" class="form-label">Registration Date</label>
+                <input type="date" class="form-control" id="registrationDate" name="registrationDate" required>
+                <div class="invalid-feedback">Please enter the registration date.</div>
+            </div>
+
+            <!-- MVC Number -->
+            <div class="mb-3">
+                <label for="mvcNumber" class="form-label">MVC Number</label>
+                <input type="text" class="form-control" id="mvcNumber" name="mvcNumber" required>
+                <div class="invalid-feedback">Please enter the MVC number.</div>
+            </div>
+
+            <!-- Doctor/Nurse -->
+            <div class="mb-3">
+                <label for="doctorNurse" class="form-label">Doctor/Nurse</label>
+                <input type="text" class="form-control" id="doctorNurse" name="doctorNurse" required>
+                <div class="invalid-feedback">Please enter the name of the doctor or nurse.</div>
+            </div>
+
+            <!-- Insurance Number -->
+            <div class="mb-3">
+                <label for="insuranceNumber" class="form-label">Insurance Number</label>
+                <input type="text" class="form-control" id="insuranceNumber" name="insuranceNumber" required>
+                <div class="invalid-feedback">Please enter the insurance number.</div>
+            </div>
+
+            <!-- Healthcare Facility Information -->
+            <h5>Healthcare Facility Information</h5>
+
+            <div class="mb-3">
+                <label for="facilityName" class="form-label">Facility Name</label>
+                <input type="text" class="form-control" id="facilityName" name="facilityName" required>
+                <div class="invalid-feedback">Please enter the facility name.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="facilityBranch" class="form-label">Facility Branch</label>
+                <input type="text" class="form-control" id="facilityBranch" name="facilityBranch" required>
+                <div class="invalid-feedback">Please enter the facility branch.</div>
+            </div>
+
+            <!-- Facility Address -->
+            <div class="mb-3">
+                <label for="facilityStreet" class="form-label">Street</label>
+                <input type="text" class="form-control" id="facilityStreet" name="facilityStreet" required>
+                <div class="invalid-feedback">Please enter the street address of the facility.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="facilityPostalCode" class="form-label">Postal Code</label>
+                <input type="text" class="form-control" id="facilityPostalCode" name="facilityPostalCode" required>
+                <div class="invalid-feedback">Please enter the postal code of the facility.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="facilityCity" class="form-label">City</label>
+                <input type="text" class="form-control" id="facilityCity" name="facilityCity" required>
+                <div class="invalid-feedback">Please enter the city of the facility.</div>
+            </div>
+
+            <!-- Button Row for Navigation -->
+            <div class="button-row">
+                <!-- Back Button: Navigates to the previous service -->
+                <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+                <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+                <button id="saveContinueButton" type="submit" class="btn btn-primary">Save & Continue</button>
+            </div>
+
+        </form>
+        <% } else { %>
+            <!-- Message displayed if no patient is selected -->
+            <p>No patient selected. Please register a patient first.</p>
+        <% } %>
+    </div>
+
+    <script>
+        // Wait until the DOM content is fully loaded before executing
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('healthcareFacilityForm');
+
+            // Add custom form validation logic
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();  // Prevent submission if invalid
+                    form.classList.add('was-validated');
+                } else {
+                    alert('Healthcare facility information saved successfully!');
+                }
+            }, false);
+
+            // Handle back button navigation
+            document.getElementById('backButton').addEventListener('click', function() {
+                window.history.back();  // Navigate to the previous section
+            });
+        });
+    </script>
+</body>
+</html>

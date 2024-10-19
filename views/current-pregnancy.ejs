@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Pregnancy Details</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Current Pregnancy Details Section -->
+        <h3>Current Pregnancy Details</h3>
+
+        <!-- Only show the form if patientId is available -->
+        <% if (patientId) { %>  
+        <form id="currentPregnancyForm" action="/add-current-pregnancy/<%= patientId %>" method="POST" novalidate>
+
+            <!-- Last Menstruation -->
+            <div class="mb-3">
+                <label for="lastMenstruation" class="form-label">Last Menstruation Date</label>
+                <input type="date" class="form-control" id="lastMenstruation" name="lastMenstruation" required>
+                <div class="invalid-feedback">Please enter the last menstruation date.</div>
+            </div>
+
+            <!-- Positive Pregnancy Test -->
+            <div class="mb-3">
+                <label for="positivePregnancyTest" class="form-label">Positive Pregnancy Test</label>
+                <div>
+                    <input type="radio" id="positivePregnancyTestYes" name="positivePregnancyTest" value="true" required> Yes
+                    <input type="radio" id="positivePregnancyTestNo" name="positivePregnancyTest" value="false" required> No
+                </div>
+            </div>
+
+            <!-- Stopped Contraceptive -->
+            <div class="mb-3">
+                <label for="stoppedContraceptive" class="form-label">Stopped Contraceptive</label>
+                <div>
+                    <input type="radio" id="stoppedContraceptiveYes" name="stoppedContraceptive" value="true" required> Yes
+                    <input type="radio" id="stoppedContraceptiveNo" name="stoppedContraceptive" value="false" required> No
+                </div>
+            </div>
+
+            <!-- IUD Removed -->
+            <div class="mb-3">
+                <label for="iudRemoved" class="form-label">IUD Removed</label>
+                <div>
+                    <input type="radio" id="iudRemovedYes" name="iudRemoved" value="true" required> Yes
+                    <input type="radio" id="iudRemovedNo" name="iudRemoved" value="false" required> No
+                </div>
+            </div>
+
+            <!-- Estimated Due Date -->
+            <h5>Estimated Due Date</h5>
+            <div class="mb-3">
+                <label for="dueDateLastMenstrualPeriod" class="form-label">Based on Last Menstrual Period</label>
+                <input type="date" class="form-control" id="dueDateLastMenstrualPeriod" name="dueDateLastMenstrualPeriod" required>
+                <div class="invalid-feedback">Please enter the due date based on the last menstrual period.</div>
+            </div>
+
+            <!-- Ultrasound-Based Estimated Due Date -->
+            <div class="mb-3">
+                <label for="ultrasoundDueDate" class="form-label">Ultrasound-Based Due Date</label>
+                <input type="date" class="form-control" id="ultrasoundDueDate" name="ultrasoundDueDate" required>
+                <div class="invalid-feedback">Please enter the ultrasound-based due date.</div>
+            </div>
+
+            <!-- Weeks Pregnant Based on Ultrasound -->
+            <div class="mb-3">
+                <label for="weeksPregnant" class="form-label">Weeks Pregnant (Based on Ultrasound)</label>
+                <input type="number" class="form-control" id="weeksPregnant" name="weeksPregnant" required>
+                <div class="invalid-feedback">Please enter the number of weeks pregnant.</div>
+            </div>
+
+            <!-- Ultrasound Scheduled -->
+            <div class="mb-3">
+                <label for="ultrasoundScheduled" class="form-label">Ultrasound Scheduled</label>
+                <div>
+                    <input type="radio" id="ultrasoundScheduledYes" name="ultrasoundScheduled" value="true" required> Yes
+                    <input type="radio" id="ultrasoundScheduledNo" name="ultrasoundScheduled" value="false" required> No
+                </div>
+            </div>
+
+            <!-- Button Row for Navigation -->
+            <div class="button-row">
+                <!-- Back Button: Navigates to the previous service -->
+                <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+                <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+                <button id="saveContinueButton" type="submit" class="btn btn-primary">Save & Continue</button>
+            </div>
+        </form>
+        <% } else { %>
+            <!-- Message displayed if no patient is selected -->
+            <p>No patient selected. Please register a patient first.</p>
+        <% } %>
+    </div>
+
+    <script>
+        // Wait until the DOM content is fully loaded before executing
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('currentPregnancyForm');
+
+            // Add custom form validation logic
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();  // Prevent submission if invalid
+                    form.classList.add('was-validated');
+                } else {
+                    alert('Current pregnancy details saved successfully!');
+                }
+            }, false);
+
+            // Handle back button navigation
+            document.getElementById('backButton').addEventListener('click', function() {
+                window.history.back();  // Navigate to the previous section
+            });
+        });
+    </script>
+</body>
+</html>

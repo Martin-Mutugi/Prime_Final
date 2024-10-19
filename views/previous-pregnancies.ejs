@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Pregnancies</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Previous Pregnancies Section -->
+        <h3>Previous Pregnancies</h3>
+
+        <!-- Only show the form if patientId is available -->
+        <% if (patientId) { %>
+        <form id="previousPregnanciesForm" action="/add-previous-pregnancies/<%= patientId %>" method="POST" novalidate>
+
+            <!-- Number of Deliveries -->
+            <div class="mb-3">
+                <label for="numberOfDeliveries" class="form-label">Number of Deliveries</label>
+                <input type="number" class="form-control" id="numberOfDeliveries" name="numberOfDeliveries" placeholder="Enter the number of deliveries" required>
+                <div class="invalid-feedback">Please enter the number of deliveries.</div>
+            </div>
+
+            <!-- Year of Pregnancy -->
+            <div class="mb-3">
+                <label for="pregnancyYear" class="form-label">Year of Pregnancy</label>
+                <input type="date" class="form-control" id="pregnancyYear" name="pregnancyYear" required>
+                <div class="invalid-feedback">Please enter the year of pregnancy.</div>
+            </div>
+
+            <!-- Abortion -->
+            <div class="mb-3">
+                <label for="abortion" class="form-label">Abortion</label>
+                <div>
+                    <input type="checkbox" id="abortionYes" name="abortion" value="true"> Yes
+                    <input type="checkbox" id="abortionNo" name="abortion" value="false"> No
+                </div>
+            </div>
+
+            <!-- Miscarriage -->
+            <div class="mb-3">
+                <label for="miscarriage" class="form-label">Miscarriage</label>
+                <div>
+                    <input type="checkbox" id="miscarriageYes" name="miscarriage" value="true"> Yes
+                    <input type="checkbox" id="miscarriageNo" name="miscarriage" value="false"> No
+                </div>
+            </div>
+
+            <!-- Children Born Alive -->
+            <div class="mb-3">
+                <label for="childrenBornAlive" class="form-label">Children Born Alive</label>
+                <div>
+                    <input type="checkbox" id="childrenBornAliveYes" name="childrenBornAlive" value="true"> Yes
+                    <input type="checkbox" id="childrenBornAliveNo" name="childrenBornAlive" value="false"> No
+                </div>
+            </div>
+
+            <!-- Delivery Type -->
+            <div class="mb-3">
+                <label for="deliveryType" class="form-label">Delivery Type</label>
+                <select class="form-control" id="deliveryType" name="deliveryType" required>
+                    <option value="">Select Delivery Type</option>
+                    <option value="vaginal">Vaginal</option>
+                    <option value="c-section">C-section</option>
+                    <option value="assisted">Assisted Delivery</option>
+                    <option value="waterBirth">Water Birth</option>
+                    <option value="natural">Natural Delivery</option>
+                    <option value="forceps">Forceps Delivery</option>
+                    <option value="vacuum">Vacuum Extraction</option>
+                    <option value="breech">Breech Birth</option>
+                    <option value="other">Other</option>
+                </select>
+                <div class="invalid-feedback">Please select a delivery type.</div>
+            </div>
+
+            <!-- Child Birth Details -->
+            <h5>Child Birth Details</h5>
+
+            <!-- Date of Birth -->
+            <div class="mb-3">
+                <label for="birthDate" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+                <div class="invalid-feedback">Please enter the child's date of birth.</div>
+            </div>
+
+            <!-- Child's Gender -->
+            <div class="mb-3">
+                <label for="gender" class="form-label">Child's Gender</label>
+                <select class="form-control" id="gender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                <div class="invalid-feedback">Please select the child's gender.</div>
+            </div>
+
+            <!-- Birth Weight -->
+            <div class="mb-3">
+                <label for="birthWeight" class="form-label">Birth Weight (grams)</label>
+                <input type="number" class="form-control" id="birthWeight" name="birthWeight" required>
+                <div class="invalid-feedback">Please enter the birth weight.</div>
+            </div>
+
+            <!-- Button Row for Navigation -->
+            <div class="button-row">
+                <!-- Back Button: Navigates to the previous service -->
+                <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+                <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+                <button id="saveContinueButton" type="submit" class="btn btn-primary">Save & Continue</button>
+            </div>
+        </form>
+        <% } else { %>
+            <!-- Message displayed if no patient is selected -->
+            <p>No patient selected. Please register a patient first.</p>
+        <% } %>
+    </div>
+
+    <script>
+        // Wait until the DOM content is fully loaded before executing
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('previousPregnanciesForm');
+
+            // Add custom form validation logic
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();  // Prevent submission if invalid
+                    form.classList.add('was-validated');
+                } else {
+                    alert('Previous Pregnancies saved successfully!');
+                }
+            }, false);
+
+            // Handle back button navigation
+            document.getElementById('backButton').addEventListener('click', function() {
+                window.history.back();  // Navigate to the previous section
+            });
+        });
+    </script>
+</body>
+</html>

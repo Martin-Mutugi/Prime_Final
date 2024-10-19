@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifestyle and Habits</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Lifestyle and Habits Section -->
+        <h3>Lifestyle and Habits</h3>
+
+        <!-- Only show the form if patientId is available -->
+        <% if (patientId) { %>
+        <form id="lifestyleHabitsForm" action="/add-lifestyle-habits/<%= patientId %>" method="POST" novalidate>
+
+            <!-- Smoking Habits Before Pregnancy -->
+            <div class="mb-3">
+                <label for="cigarettesPerDay" class="form-label">Cigarettes per Day Before Pregnancy</label>
+                <input type="text" class="form-control" id="cigarettesPerDay" name="cigarettesPerDay" placeholder="e.g., 5, 10, none" required>
+                <div class="invalid-feedback">Please enter cigarettes per day.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="snusBeforePregnancy" class="form-label">Use of Snus Before Pregnancy</label>
+                <div>
+                    <input type="checkbox" id="snusBeforePregnancyYes" name="snusBeforePregnancy" value="true"> Yes
+                    <input type="checkbox" id="snusBeforePregnancyNo" name="snusBeforePregnancy" value="false"> No
+                </div>
+            </div>
+
+            <!-- Smoking Habits at Registration -->
+            <div class="mb-3">
+                <label for="quitSmokingDays" class="form-label">Days Since Quitting Smoking</label>
+                <input type="text" class="form-control" id="quitSmokingDays" name="quitSmokingDays" placeholder="e.g., 10, 30, never quit" required>
+                <div class="invalid-feedback">Please enter days since quitting smoking.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="snusAtRegistration" class="form-label">Use of Snus at Registration</label>
+                <div>
+                    <input type="checkbox" id="snusAtRegistrationYes" name="snusAtRegistration" value="true"> Yes
+                    <input type="checkbox" id="snusAtRegistrationNo" name="snusAtRegistration" value="false"> No
+                </div>
+            </div>
+
+            <!-- Alcohol Use -->
+            <h5>Alcohol Use</h5>
+            <div class="mb-3">
+                <label for="alcoholBeforePregnancy" class="form-label">Alcohol Use Before Pregnancy</label>
+                <input type="text" class="form-control" id="alcoholBeforePregnancy" name="alcoholBeforePregnancy" placeholder="e.g., occasional, none" required>
+                <div class="invalid-feedback">Please enter alcohol use before pregnancy.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="alcoholDuringPregnancy" class="form-label">Alcohol Use During Pregnancy</label>
+                <input type="text" class="form-control" id="alcoholDuringPregnancy" name="alcoholDuringPregnancy" placeholder="e.g., occasional, none" required>
+                <div class="invalid-feedback">Please enter alcohol use during pregnancy.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="auditScore" class="form-label">AUDIT Score</label>
+                <input type="text" class="form-control" id="auditScore" name="auditScore" placeholder="Enter AUDIT score if available" required>
+                <div class="invalid-feedback">Please enter the AUDIT score.</div>
+            </div>
+
+            <!-- Physical Activity -->
+            <h5>Physical Activity</h5>
+            <div class="mb-3">
+                <label for="physicalActivityBeforePregnancy" class="form-label">Minutes per Week Before Pregnancy</label>
+                <input type="number" class="form-control" id="physicalActivityBeforePregnancy" name="physicalActivityBeforePregnancy" placeholder="e.g., 150, 0" required>
+                <div class="invalid-feedback">Please enter physical activity before pregnancy.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="physicalActivityDuringPregnancy" class="form-label">Current Minutes per Week</label>
+                <input type="number" class="form-control" id="physicalActivityDuringPregnancy" name="physicalActivityDuringPregnancy" placeholder="e.g., 30, 60" required>
+                <div class="invalid-feedback">Please enter current physical activity minutes per week.</div>
+            </div>
+
+            <!-- Button Row for Navigation -->
+            <div class="button-row">
+                <!-- Back Button: Navigates to the previous service -->
+                <button id="backButton" type="button" class="btn btn-secondary">Back</button>
+
+                <!-- Save & Continue Button: Saves current data and navigates to the next service -->
+                <button id="saveContinueButton" type="submit" class="btn btn-primary">Save & Continue</button>
+            </div>
+        </form>
+        <% } else { %>
+            <!-- Message displayed if no patient is selected -->
+            <p>No patient selected. Please register a patient first.</p>
+        <% } %>
+    </div>
+
+    <script>
+        // Wait until the DOM content is fully loaded before executing
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('lifestyleHabitsForm');
+
+            // Add custom form validation logic
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();  // Prevent submission if invalid
+                    form.classList.add('was-validated');
+                } else {
+                    alert('Lifestyle and habits saved successfully!');
+                }
+            }, false);
+
+            // Handle back button navigation
+            document.getElementById('backButton').addEventListener('click', function() {
+                window.history.back();  // Navigate to the previous section
+            });
+        });
+    </script>
+</body>
+</html>
