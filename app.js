@@ -1,27 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const admin = require('firebase-admin');  // Import Firebase Admin SDK
+const db = require('./firebase-config');  // Firebase configuration
 const patientRoutes = require('./routes/patients');  // Import the patient routes
-require('dotenv').config();  // Load environment variables from .env
 
 const app = express();
-
-// Initialize Firebase Admin SDK using environment variables
-admin.initializeApp({
-  credential: admin.credential.cert({
-    type: "service_account",
-    project_id: process.env.FIREBASE_PROJECT_ID,
-    private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-    private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Proper handling for multi-line private key
-    client_email: process.env.FIREBASE_CLIENT_EMAIL,
-    client_id: process.env.FIREBASE_CLIENT_ID,
-    auth_uri: "https://accounts.google.com/o/oauth2/auth",
-    token_uri: "https://oauth2.googleapis.com/token",
-    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
-    client_x509_cert_url: process.env.FIREBASE_CLIENT_CERT_URL
-  }),
-  databaseURL: process.env.FIREBASE_DATABASE_URL
-});
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
@@ -34,14 +16,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Route to render the home page and fetch patient data in real-time
 app.get('/', (req, res) => {
-    const db = admin.database().ref('patients');
-    db.on('value', (snapshot) => {
+    db.ref('patients').on('value', (snapshot) => {
         const patientsData = snapshot.val() || {};  // Retrieve patient data or use an empty object if none
         const patients = Object.keys(patientsData).map(key => ({ id: key, ...patientsData[key] }));  // Convert to an array with the id as a field
-
+        
         // Assuming you want to pass the first patient's ID for the form as an example
         const patientId = patients.length > 0 ? patients[0].id : null;  // Get the first patient ID, or null if no patients
-
+        
         // Render the main dashboard or home page
         res.render('index', { patients, patientId });
     }, (errorObject) => {
@@ -55,31 +36,96 @@ app.get('/register-patient', (req, res) => {
     res.render('register-patient');  // Render the registration form view
 });
 
-// Render other forms based on the specific patient ID
-const formRoutes = [
-    { path: '/add-healthcare-facility/:patientId', view: 'healthcare-facility' },
-    { path: '/add-medical-history/:patientId', view: 'medical-history' },
-    { path: '/add-current-pregnancy/:patientId', view: 'current-pregnancy' },
-    { path: '/add-social-living-conditions/:patientId', view: 'social-living-conditions' },
-    { path: '/add-health-examination/:patientId', view: 'health-examination' },
-    { path: '/add-lifestyle-habits/:patientId', view: 'lifestyle-habits' },
-    { path: '/add-mental-health-support/:patientId', view: 'mental-health-support' },
-    { path: '/add-previous-pregnancies/:patientId', view: 'previous-pregnancies' },
-    { path: '/add-medications-supplements/:patientId', view: 'medications-supplements' },
-    { path: '/add-laboratory-results/:patientId', view: 'laboratory-results' },
-    { path: '/add-care-plan/:patientId', view: 'care-plan' },
-    { path: '/add-midwife-notes/:patientId', view: 'midwife-notes' },
-    { path: '/add-labor-delivery/:patientId', view: 'labor-delivery' },
-    { path: '/add-partograph/:patientId', view: 'partograph' },
-    { path: '/partograph-success/:patientId', view: 'partograph-success' }
-];
+// Render the healthcare facility form view
+app.get('/add-healthcare-facility/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('healthcare-facility', { patientId });  // Render healthcare facility view
+});
 
-// Register routes for rendering forms dynamically
-formRoutes.forEach(route => {
-    app.get(route.path, (req, res) => {
-        const { patientId } = req.params;
-        res.render(route.view, { patientId });
-    });
+// Render the medical history form view
+app.get('/add-medical-history/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('medical-history', { patientId });  // Render medical history view
+});
+
+// Render the current pregnancy form view
+app.get('/add-current-pregnancy/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('current-pregnancy', { patientId });
+});
+
+// Render the social and living conditions form view
+app.get('/add-social-living-conditions/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('social-living-conditions', { patientId });
+});
+
+// Render the health examination form view
+app.get('/add-health-examination/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('health-examination', { patientId });
+});
+
+// Render the lifestyle habits form view
+app.get('/add-lifestyle-habits/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('lifestyle-habits', { patientId });
+});
+
+// Render the mental health support form view
+app.get('/add-mental-health-support/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('mental-health-support', { patientId });
+});
+
+// Render the previous pregnancies form view
+app.get('/add-previous-pregnancies/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('previous-pregnancies', { patientId });
+});
+
+// Render the medications and supplements form view
+app.get('/add-medications-supplements/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('medications-supplements', { patientId });
+});
+
+// Render the laboratory results form view
+app.get('/add-laboratory-results/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('laboratory-results', { patientId });
+});
+
+// Render the care plan form view
+app.get('/add-care-plan/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('care-plan', { patientId });
+});
+
+// Render the midwife notes form view
+app.get('/add-midwife-notes/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('midwife-notes', { patientId });
+});
+
+// Render the labor and delivery form view
+app.get('/add-labor-delivery/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('labor-delivery', { patientId });
+});
+
+// Render the partograph form view
+app.get('/add-partograph/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    res.render('partograph', { patientId });
+});
+
+// Route to handle successful partograph submission
+app.get('/partograph-success/:patientId', (req, res) => {
+    const { patientId } = req.params;
+    
+    // Once the partograph data is successfully saved, render a success page
+    res.render('partograph-success', { patientId });
 });
 
 // Use the patientRoutes for handling CRUD operations (add, edit, delete, etc.)

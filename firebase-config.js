@@ -1,11 +1,11 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('./serviceKeyAccounts.json');  // Ensure this file exists and contains valid credentials
+const serviceAccount = require('./serviceKeyAccounts.json');  // Make sure this file exists and contains valid credentials
 
-// Check if Firebase Admin has already been initialized to prevent duplicate initialization
+// Check if Firebase Admin has already been initialized
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://netdokproject-default-rtdb.firebaseio.com"  // Ensure this URL is correct
+    databaseURL: "https://netdokproject-default-rtdb.firebaseio.com"
   });
 }
 
